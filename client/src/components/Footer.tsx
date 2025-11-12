@@ -39,31 +39,23 @@ export default function Footer() {
                 </button>
               </li>
               <li>
-                <Link href="/intake">
-                  <a className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-intake">
-                    Intake Form
-                  </a>
+                <Link href="/intake" className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-intake">
+                  Intake Form
                 </Link>
               </li>
               <li>
-                <Link href="/order">
-                  <a className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-order">
-                    Place Order
-                  </a>
+                <Link href="/order" className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-order">
+                  Place Order
                 </Link>
               </li>
               <li>
-                <Link href="/privacy">
-                  <a className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-privacy">
-                    Privacy
-                  </a>
+                <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-privacy">
+                  Privacy
                 </Link>
               </li>
               <li>
-                <Link href="/terms">
-                  <a className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-terms">
-                    Terms
-                  </a>
+                <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-terms">
+                  Terms
                 </Link>
               </li>
             </ul>

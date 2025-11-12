@@ -1,0 +1,140 @@
+# Dockside Digital - Project Documentation
+
+## Overview
+
+Dockside Digital is a Halifax-based web studio marketing website built with a modern full-stack architecture. The application serves as both a marketing platform and a client intake system, featuring service showcases, case studies, pricing information, and contact forms. The project emphasizes fast performance, clean design with maritime-inspired aesthetics, and a trust-first approach for payment and order decisions.
+
+The application is built for deployment on Replit Autoscale, using a React + Express architecture with Vite as the build tool. It integrates with Stripe for payments (via Checkout/payment links only - no card collection on servers) and Resend for email notifications.
+
+## User Preferences
+
+Preferred communication style: Simple, everyday language.
+
+## System Architecture
+
+### Frontend Architecture
+
+**Framework & Build System:**
+- React 18 with TypeScript in strict mode
+- Vite as the development server and build tool
+- Client-side routing using Wouter (lightweight alternative to React Router)
+- React Query (@tanstack/react-query) for server state management with custom query functions
+
+**UI Component System:**
+- shadcn/ui component library (New York style variant) with Radix UI primitives
+- Tailwind CSS for styling with custom design system
+- Component structure follows atomic design principles with reusable UI components in `client/src/components/ui/`
+- Custom components for business logic in `client/src/components/`
+
+**Design System:**
+- Typography: Inter font family (400, 500, 600, 700 weights)
+- Color system based on HSL with CSS custom properties for theming
+- Spacing follows Tailwind's scale (2, 4, 6, 8, 12, 16, 20, 24)
+- Responsive design with mobile-first approach
+- Maritime-inspired coastal aesthetics with clean, open layouts
+
+**Page Structure:**
+- Single-page marketing homepage with jump-link navigation sections
+- Dedicated pages for intake questionnaire and order forms
+- Legal pages (Privacy, Terms)
+- 404 not found page
+
+### Backend Architecture
+
+**Server Framework:**
+- Express.js server with TypeScript
+- Custom Vite middleware integration for development mode
+- API-first design with RESTful endpoints under `/api` prefix
+- Request logging middleware for API routes
+
+**API Endpoints:**
+- `GET /api/status` - Health check endpoint
+- `POST /api/intake-email` - Intake questionnaire submission
+- `POST /api/order` - Order form submission with Stripe integration
+
+**Request Handling:**
+- JSON body parsing with raw body preservation for webhook verification
+- Zod schema validation for all form submissions
+- Custom error handling with structured error responses
+
+**Development Features:**
+- Hot module replacement (HMR) via Vite
+- Runtime error overlay for development
+- Replit-specific plugins (cartographer, dev banner) in development mode
+
+### Data Storage Solutions
+
+**Database:**
+- Configured for PostgreSQL via Drizzle ORM
+- Neon Database serverless driver (@neondatabase/serverless)
+- Schema definitions in `shared/schema.ts`
+- Migration files in `./migrations` directory
+- Database configuration expects `DATABASE_URL` environment variable
+
+**In-Memory Storage:**
+- Fallback MemStorage implementation for user data (development/testing)
+- Interface-based storage abstraction (IStorage) for potential future database implementations
+
+**Session Management:**
+- Connect-pg-simple for PostgreSQL session storage
+- Session data structure supports user authentication flows
+
+### Authentication and Authorization
+
+**Current State:**
+- User schema defined with username-based lookup
+- Session infrastructure in place but not actively used in current routes
+- No active authentication on public-facing forms (intake/order)
+
+**User Schema:**
+- User model with unique IDs
+- Username-based user lookup capability
+- Extensible for future authentication features
+
+### External Dependencies
+
+**Payment Processing:**
+- Stripe integration via @stripe/stripe-js and @stripe/react-stripe-js
+- Payment links/Checkout only - no direct card collection
+- Server-side Stripe SDK for webhook handling and order processing
+- Expects environment variables: `STRIPE_PRICE_*` or `STRIPE_PAYMENT_LINK_*`
+
+**Email Service:**
+- Primary: Resend API via Replit Connectors system
+- Dynamic credential fetching using Replit's connector API
+- Sends intake questionnaire and order confirmation emails
+- From email and API key configured via Replit Connectors
+- Fallback: SMTP environment variables (SMTP_*)
+- Target recipient: `OWNER_EMAIL` environment variable (defaults to hello@dockside.digital)
+
+**Third-Party UI Libraries:**
+- Radix UI primitives for accessible component foundations
+- Lucide React for iconography
+- React Icons (specifically react-icons/si for brand icons like Stripe)
+- cmdk for command palette functionality
+- date-fns for date manipulation
+- class-variance-authority and clsx for conditional styling
+
+**Form Management:**
+- React Hook Form for form state management
+- @hookform/resolvers for Zod schema integration
+- Zod for runtime type validation and schema definitions
+
+**Development Tools:**
+- TypeScript strict mode compilation
+- ESLint and Prettier (configured but not shown in provided files)
+- Drizzle Kit for database migrations
+- tsx for TypeScript execution in development
+
+**Deployment Platform:**
+- Replit Autoscale deployment target
+- Environment-specific configuration via NODE_ENV
+- Build process: Vite for client, esbuild for server bundle
+- Static file serving in production mode
+
+**SEO & Meta:**
+- Comprehensive meta tags in index.html (Open Graph, Twitter Cards)
+- Canonical URLs
+- Structured data (JSON-LD for LocalBusiness schema)
+- Sitemap and robots.txt configured
+- Geo-tagging for Halifax, Nova Scotia location

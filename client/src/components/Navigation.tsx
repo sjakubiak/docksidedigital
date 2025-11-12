@@ -29,7 +29,7 @@ export default function Navigation() {
 
   const navLinks = [
     { label: "Services", href: "#services" },
-    { label: "Case Studies", href: "#case-studies" },
+    { label: "Examples", href: "#case-studies" },
     { label: "Pricing", href: "#pricing" },
     { label: "Process", href: "#process" },
     { label: "About", href: "#about" },
@@ -69,6 +69,13 @@ export default function Navigation() {
 
           <div className="hidden md:flex items-center gap-2">
             <Button
+              variant="ghost"
+              onClick={() => setLocation("/experience")}
+              data-testid="button-experience"
+            >
+              Experience
+            </Button>
+            <Button
               variant="outline"
               onClick={() => setLocation("/intake")}
               data-testid="button-intake"
@@ -105,6 +112,13 @@ export default function Navigation() {
                   </Button>
                 ))}
                 <div className="border-t pt-4 flex flex-col gap-2">
+                  <Button
+                    variant="ghost"
+                    onClick={() => setLocation("/experience")}
+                    data-testid="button-mobile-experience"
+                  >
+                    Experience
+                  </Button>
                   <Button
                     variant="outline"
                     onClick={() => setLocation("/intake")}

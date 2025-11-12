@@ -39,6 +39,11 @@ export default function Footer() {
                 </button>
               </li>
               <li>
+                <Link href="/experience" className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-experience">
+                  Experience
+                </Link>
+              </li>
+              <li>
                 <Link href="/intake" className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-intake">
                   Intake Form
                 </Link>

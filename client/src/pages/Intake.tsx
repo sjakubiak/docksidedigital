@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Copy, ArrowLeft, Send } from "lucide-react";
+import logo from "@assets/DocksideDigital_1762951646514.png";
 
 export default function Intake() {
   const { toast } = useToast();
@@ -92,13 +93,16 @@ Requirements:
           </Button>
         </Link>
 
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-            Client Intake Questionnaire
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Fill out the form below and copy the summary to share with us, or send it directly via email.
-          </p>
+        <div className="mb-8 flex items-center gap-4">
+          <img src={logo} alt="Dockside Digital" className="h-16 w-auto" />
+          <div>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+              Client Intake Questionnaire
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Fill out the form below and copy the summary to share with us, or send it directly via email.
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

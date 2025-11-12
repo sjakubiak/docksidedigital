@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import heroImage from "@assets/generated_images/Halifax_harbor_hero_background_6b5f3e8a.png";
+import logo from "@assets/DocksideDigital_1762951646514.png";
 
 export default function Hero() {
   const scrollToSection = (id: string) => {
@@ -18,19 +19,20 @@ export default function Hero() {
       <div
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url(${heroImage})`,
+          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0.4)), url(${heroImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       />
       
       <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-8 text-center">
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
+        <img src={logo} alt="Dockside Digital" className="h-24 md:h-32 w-auto mx-auto mb-8 drop-shadow-lg" />
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 leading-tight drop-shadow-md">
           Local SaaS & websites—launched fast.
         </h1>
         
-        <p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed max-w-2xl mx-auto">
-          Dockside Digital builds clean, reliable sites and simple web apps for Atlantic Canada.
+        <p className="text-lg md:text-xl text-white mb-8 leading-relaxed max-w-2xl mx-auto drop-shadow-md">
+          Clean, reliable sites and simple web apps for Atlantic Canada.
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">

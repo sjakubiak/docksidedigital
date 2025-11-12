@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import logo from "@assets/DocksideDigital_1762951646514.png";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,7 +39,7 @@ export default function Navigation() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/80 backdrop-blur-lg border-b" : "bg-transparent"
+        isScrolled ? "bg-background/95 backdrop-blur-lg border-b shadow-sm" : "bg-background/80 backdrop-blur-md"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-8">
@@ -46,10 +47,10 @@ export default function Navigation() {
           <Link href="/" data-testid="link-home">
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="text-xl md:text-2xl font-bold tracking-tight hover-elevate active-elevate-2 px-2 py-1 rounded-md"
+              className="flex items-center gap-3 hover-elevate active-elevate-2 px-2 py-1 rounded-md"
               data-testid="button-logo"
             >
-              Dockside Digital
+              <img src={logo} alt="Dockside Digital" className="h-10 md:h-12 w-auto" />
             </button>
           </Link>
 

@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Mail } from "lucide-react";
+import logo from "@assets/DocksideDigital_1762951646514.png";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -19,7 +20,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">Dockside Digital</h3>
+            <img src={logo} alt="Dockside Digital" className="h-12 w-auto mb-4" />
             <p className="text-sm text-muted-foreground leading-relaxed">
               Halifax-based web studio building fast, clean solutions for Atlantic Canada businesses.
             </p>

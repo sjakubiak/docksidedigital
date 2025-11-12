@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, CreditCard } from "lucide-react";
 import { SiStripe } from "react-icons/si";
+import logo from "@assets/DocksideDigital_1762951646514.png";
 
 export default function Order() {
   const { toast } = useToast();
@@ -87,13 +88,16 @@ export default function Order() {
           </Button>
         </Link>
 
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-            Place an Order
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Fill out the form below to get started. We'll send you a secure payment link.
-          </p>
+        <div className="mb-8 flex items-center gap-4">
+          <img src={logo} alt="Dockside Digital" className="h-16 w-auto" />
+          <div>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-2">
+              Place an Order
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Fill out the form below to get started. We'll send you a secure payment link.
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

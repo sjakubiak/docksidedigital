@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import logo from "@assets/DocksideDigital_1762951646514.png";
 
 export default function Terms() {
   return (
@@ -12,6 +13,8 @@ export default function Terms() {
             Back to Home
           </Button>
         </Link>
+
+        <img src={logo} alt="Dockside Digital" className="h-12 w-auto mb-6" />
 
         <article className="prose prose-slate dark:prose-invert max-w-none">
           <h1>Terms of Service</h1>

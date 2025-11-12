@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Zap, Globe, Rocket, Coffee, Dumbbell, Wrench, Briefcase, Store, ShoppingBag } from "lucide-react";
+import { Zap, Globe, Rocket, Coffee, Dumbbell, Wrench, Briefcase, Store, ShoppingBag, Sparkles, MessageSquare, Bot, BrainCircuit } from "lucide-react";
 import { useLocation } from "wouter";
 
 export default function Home() {
@@ -152,6 +152,116 @@ export default function Home() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-24 lg:py-32 bg-background">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-flex items-center gap-2 mb-4">
+              <Sparkles className="h-6 w-6 text-primary" />
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+                AI-Powered Features
+              </h2>
+            </div>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+              Add intelligent capabilities to your web app with modern AI integration.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <Card className="hover-elevate" data-testid="card-ai-chatbots">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                  <MessageSquare className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle>AI Chatbots & Support</CardTitle>
+                <CardDescription>24/7 customer support automation</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-start">
+                    <span className="mr-2">•</span>
+                    <span>Custom-trained chatbots for your business</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2">•</span>
+                    <span>FAQ automation and lead qualification</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2">•</span>
+                    <span>Integration with your existing systems</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="hover-elevate" data-testid="card-ai-content">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                  <BrainCircuit className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle>Content Generation</CardTitle>
+                <CardDescription>AI-assisted writing and creation</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-start">
+                    <span className="mr-2">•</span>
+                    <span>Product descriptions and marketing copy</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2">•</span>
+                    <span>Email templates and responses</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2">•</span>
+                    <span>SEO-optimized content suggestions</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="hover-elevate" data-testid="card-ai-automation">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                  <Bot className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle>Intelligent Automation</CardTitle>
+                <CardDescription>Smart workflows and processing</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-start">
+                    <span className="mr-2">•</span>
+                    <span>Document analysis and data extraction</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2">•</span>
+                    <span>Smart recommendations and personalization</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2">•</span>
+                    <span>Automated categorization and tagging</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="bg-muted/50 border border-border rounded-lg p-6 md:p-8">
+            <div className="max-w-3xl mx-auto text-center">
+              <h3 className="text-xl md:text-2xl font-semibold mb-3">
+                AI Integration Expertise
+              </h3>
+              <p className="text-muted-foreground mb-4">
+                We integrate leading AI platforms including OpenAI, Anthropic Claude, and open-source models. 
+                Whether you need a simple chatbot or complex data processing, we build AI features that actually 
+                work for your business—no hype, just practical solutions.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                AI features can be added to any service tier. Pricing varies based on complexity and usage.
+              </p>
+            </div>
           </div>
         </div>
       </section>

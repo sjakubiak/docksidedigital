@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Code2, Database, Layout, Server, Zap, Shield } from "lucide-react";
+import { ArrowLeft, Code2, Database, Layout, Server, Zap, Shield, Sparkles } from "lucide-react";
 import logo from "@assets/dockside-logo.png";
 
 export default function Experience() {
@@ -22,6 +22,14 @@ export default function Experience() {
       "Authentication & Security",
       "Payment Integration",
       "Email Systems"
+    ],
+    "AI Integration": [
+      "OpenAI & Claude APIs",
+      "Chatbot Development",
+      "Content Generation",
+      "Document Processing",
+      "Prompt Engineering",
+      "AI Workflow Automation"
     ],
     "Architecture & DevOps": [
       "System Architecture",
@@ -48,6 +56,11 @@ export default function Experience() {
       icon: Server,
       title: "API Development",
       description: "Built robust RESTful APIs with proper authentication, validation, error handling, and documentation."
+    },
+    {
+      icon: Sparkles,
+      title: "AI Integration",
+      description: "Integrated AI capabilities including chatbots, content generation, and intelligent automation using modern AI platforms."
     },
     {
       icon: Shield,

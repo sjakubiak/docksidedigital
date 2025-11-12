@@ -2,9 +2,9 @@
 
 ## Overview
 
-Dockside Digital is a Halifax-based web studio marketing website built with a modern full-stack architecture. The application serves as both a marketing platform and a client intake system, featuring service showcases, case studies, pricing information, and contact forms. The project emphasizes fast performance, clean design with maritime-inspired aesthetics, and a trust-first approach for payment and order decisions.
+Dockside Digital is a Halifax-based web studio marketing website built with a modern full-stack architecture. The application serves as both a marketing platform and a client intake system, featuring service showcases, industry information, AI capabilities, pricing information, and contact forms. The project emphasizes fast performance, clean design with maritime-inspired aesthetics, and a trust-first approach for payment and order decisions.
 
-The application is built for deployment on Replit Autoscale, using a React + Express architecture with Vite as the build tool. It integrates with Stripe for payments (via Checkout/payment links only - no card collection on servers) and Resend for email notifications.
+The application is built for deployment on Replit Autoscale, using a React + Express architecture with Vite as the build tool. It integrates with Stripe for payments (via Checkout/payment links only - no card collection on servers) and Resend for email notifications. The website is technology-agnostic, avoiding specific tech stack mentions to maintain flexibility.
 
 ## User Preferences
 
@@ -34,7 +34,15 @@ Preferred communication style: Simple, everyday language.
 - Maritime-inspired coastal aesthetics with clean, open layouts
 
 **Page Structure:**
-- Single-page marketing homepage with jump-link navigation sections
+- Single-page marketing homepage with jump-link navigation sections:
+  - Services (3 tiers: Landing Page Sprint, Business Website, MVP Web App)
+  - Industries We Serve (6 industry cards with specific solutions)
+  - AI-Powered Features (chatbots, content generation, intelligent automation)
+  - Pricing (transparent pricing table)
+  - Process (step-by-step workflow)
+  - About (company description)
+  - Contact (intake and order CTAs)
+- Dedicated Experience page showcasing technical expertise and skills
 - Dedicated pages for intake questionnaire and order forms
 - Legal pages (Privacy, Terms)
 - 404 not found page
@@ -106,6 +114,21 @@ Preferred communication style: Simple, everyday language.
 - From email and API key configured via Replit Connectors
 - Fallback: SMTP environment variables (SMTP_*)
 - Target recipient: `OWNER_EMAIL` environment variable (defaults to hello@dockside.digital)
+
+**AI Capabilities (Marketing Content):**
+- AI Chatbots & Support: Custom-trained chatbots, FAQ automation, lead qualification
+- Content Generation: Product descriptions, email templates, SEO-optimized content
+- Intelligent Automation: Document processing, recommendations, categorization
+- Platforms: OpenAI, Anthropic Claude, open-source models
+- Integration approach: Practical, business-focused solutions without hype
+
+**Industries Served (Marketing Content):**
+- Food & Beverage (restaurants, cafés, catering)
+- Health & Fitness (gyms, studios, wellness)
+- Trades & Home Services (plumbing, HVAC, electrical)
+- Professional Services (lawyers, accountants, consultants)
+- Retail & E-commerce (shops, online stores)
+- Local Businesses (general Atlantic Canada businesses)
 
 **Third-Party UI Libraries:**
 - Radix UI primitives for accessible component foundations

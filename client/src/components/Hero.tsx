@@ -28,7 +28,7 @@ export default function Hero() {
       <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-8 text-center">
         <img src={logo} alt="Dockside Digital" className="h-24 md:h-32 w-auto mx-auto mb-8 drop-shadow-lg" />
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 leading-tight drop-shadow-md">
-          AI-Driven SaaS & Websites — Built for Local Business.
+          AI-Driven SaaS & Websites Built for Local Business.
         </h1>
         
         <p className="text-lg md:text-xl text-white mb-8 leading-relaxed max-w-2xl mx-auto drop-shadow-md">

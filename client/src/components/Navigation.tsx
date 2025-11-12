@@ -50,7 +50,7 @@ export default function Navigation() {
               className="flex items-center gap-3 hover-elevate active-elevate-2 px-2 py-1 rounded-md"
               data-testid="button-logo"
             >
-              <img src={logo} alt="Dockside Digital" className="h-10 md:h-12 w-auto" />
+              <img src={logo} alt="Dockside Digital" className="h-14 md:h-16 w-auto" />
             </button>
           </Link>
 

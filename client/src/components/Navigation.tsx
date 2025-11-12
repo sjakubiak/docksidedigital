@@ -29,7 +29,7 @@ export default function Navigation() {
 
   const navLinks = [
     { label: "Services", href: "#services" },
-    { label: "Examples", href: "#case-studies" },
+    { label: "Industries", href: "#case-studies" },
     { label: "Pricing", href: "#pricing" },
     { label: "Process", href: "#process" },
     { label: "About", href: "#about" },

@@ -1,17 +1,14 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import ServiceCard from "@/components/ServiceCard";
-import CaseStudyCard from "@/components/CaseStudyCard";
 import PricingTable from "@/components/PricingTable";
 import ProcessSteps from "@/components/ProcessSteps";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Zap, Globe, Rocket } from "lucide-react";
+import { Zap, Globe, Rocket, Coffee, Dumbbell, Wrench, Briefcase, Store, ShoppingBag } from "lucide-react";
 import { useLocation } from "wouter";
-import coffeeImage from "@assets/generated_images/Coffee_shop_case_study_17528733.png";
-import fitnessImage from "@assets/generated_images/Fitness_facility_case_study_62f848c1.png";
-import plumbingImage from "@assets/generated_images/Plumbing_business_case_study_4ad1b5ba.png";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -60,42 +57,42 @@ export default function Home() {
     }
   ];
 
-  const exampleProjects = [
+  const industries = [
     {
-      title: "Lead-gen landing page",
-      client: "Coffee Shop Example",
-      industry: "Food & Beverage",
-      thumbnail: coffeeImage,
-      stat: "Single-page site",
-      challenge: "A local coffee shop wants to increase online orders and event bookings during slow winter months.",
-      solution: "A conversion-focused landing page with compelling imagery, clear menu sections, and an integrated booking system for private events.",
-      stack: ["Modern framework", "Responsive design", "Payment processing", "Booking integration"],
-      results: "Fast-loading single page optimized for conversions with analytics tracking and mobile-first design.",
-      quote: "Example of how we'd approach a food & beverage landing page project."
+      icon: Coffee,
+      name: "Food & Beverage",
+      description: "Restaurants, cafés, and catering services",
+      solutions: ["Online ordering & menus", "Reservation systems", "Event booking", "Photo galleries"]
     },
     {
-      title: "6-page site with booking",
-      client: "Fitness Studio Example",
-      industry: "Health & Wellness",
-      thumbnail: fitnessImage,
-      stat: "Multi-page site",
-      challenge: "A growing fitness studio needs a professional web presence to compete with larger gym chains and streamline class bookings.",
-      solution: "A 6-page responsive website with integrated class scheduling, trainer profiles, and membership plans.",
-      stack: ["Modern framework", "Content management", "Payment integration", "Scheduling system"],
-      results: "Complete business website delivered in 2-4 weeks with automated booking system reducing administrative overhead.",
-      quote: "Example of a typical business website with booking functionality."
+      icon: Dumbbell,
+      name: "Health & Fitness",
+      description: "Gyms, studios, and wellness centers",
+      solutions: ["Class scheduling", "Membership portals", "Trainer profiles", "Payment integration"]
     },
     {
-      title: "Simple member portal",
-      client: "Service Business Example",
-      industry: "Home Services",
-      thumbnail: plumbingImage,
-      stat: "Custom web app",
-      challenge: "A service company is losing time managing invoices and documents via email, causing delayed payments.",
-      solution: "A simple member portal where clients can view invoices, download documents, and make secure payments online.",
-      stack: ["Modern framework", "Database", "Authentication", "Payment processing"],
-      results: "Custom web application with user authentication, document management, and automated payment collection.",
-      quote: "Example of a custom MVP web app for service-based businesses."
+      icon: Wrench,
+      name: "Trades & Home Services",
+      description: "Plumbing, HVAC, electrical, and contractors",
+      solutions: ["Service booking", "Quote requests", "Customer portals", "Invoice management"]
+    },
+    {
+      icon: Briefcase,
+      name: "Professional Services",
+      description: "Lawyers, accountants, and consultants",
+      solutions: ["Client portals", "Appointment booking", "Document sharing", "Secure payments"]
+    },
+    {
+      icon: Store,
+      name: "Retail & E-commerce",
+      description: "Local shops and online stores",
+      solutions: ["Product catalogs", "Shopping carts", "Payment processing", "Inventory tracking"]
+    },
+    {
+      icon: ShoppingBag,
+      name: "Local Businesses",
+      description: "Any Atlantic Canada business needing a web presence",
+      solutions: ["Custom websites", "Booking systems", "Contact forms", "SEO optimization"]
     }
   ];
 
@@ -126,15 +123,34 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-              Example Projects
+              Industries We Serve
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              See what we can build for your business—from landing pages to custom web apps.
+              We build websites and web apps for Atlantic Canada businesses across all industries.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {exampleProjects.map((project) => (
-              <CaseStudyCard key={project.client} {...project} />
+            {industries.map((industry) => (
+              <Card key={industry.name} className="hover-elevate" data-testid={`card-industry-${industry.name.toLowerCase().replace(/\s+/g, '-')}`}>
+                <CardHeader>
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                    <industry.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <CardTitle>{industry.name}</CardTitle>
+                  <CardDescription>{industry.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm font-semibold mb-2 text-muted-foreground">What we build:</p>
+                  <ul className="space-y-1">
+                    {industry.solutions.map((solution) => (
+                      <li key={solution} className="text-sm text-muted-foreground flex items-start">
+                        <span className="mr-2">•</span>
+                        <span>{solution}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>

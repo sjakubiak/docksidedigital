@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { sendIntakeEmail, sendOrderEmail } from "./email";
 import Stripe from "stripe";
+import { intakeEmailPayloadSchema, orderFormSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Health check endpoint
@@ -13,13 +14,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Intake form submission endpoint
   app.post("/api/intake-email", async (req, res) => {
     try {
-      const { formData, summary } = req.body;
-
-      if (!formData.email) {
+      // Validate request payload
+      const validationResult = intakeEmailPayloadSchema.safeParse(req.body);
+      
+      if (!validationResult.success) {
         return res.status(400).json({ 
-          error: "Email is required" 
+          error: "Invalid form data",
+          details: validationResult.error.issues
         });
       }
+
+      const { formData, summary } = validationResult.data;
 
       // Send email via Resend
       const result = await sendIntakeEmail(formData, summary);
@@ -40,13 +45,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Order form submission endpoint
   app.post("/api/order", async (req, res) => {
     try {
-      const formData = req.body;
-
-      if (!formData.email || !formData.name || !formData.projectType) {
+      // Validate request payload
+      const validationResult = orderFormSchema.safeParse(req.body);
+      
+      if (!validationResult.success) {
         return res.status(400).json({ 
-          error: "Name, email, and project type are required" 
+          error: "Invalid form data",
+          details: validationResult.error.issues
         });
       }
+
+      const formData = validationResult.data;
 
       // Send email notification
       const emailResult = await sendOrderEmail(formData);
@@ -73,11 +82,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           apiVersion: '2025-10-29.clover'
         });
 
-        // Define pricing based on project type
+        // Define pricing based on project type (amounts in cents CAD)
         const priceMap: Record<string, number> = {
-          landing: 2000, // $20.00 USD (in cents)
-          website: 5000, // $50.00 USD
-          mvp: 10000     // $100.00 USD
+          landing: 225000,  // $2,250 CAD (mid-range of $1,500–$3,000)
+          website: 550000,  // $5,500 CAD (mid-range of $3,500–$7,500)
+          mvp: 1375000      // $13,750 CAD (mid-range of $7,500–$20,000)
         };
 
         const amount = priceMap[formData.projectType] || 5000;

@@ -60,42 +60,42 @@ export default function Home() {
     }
   ];
 
-  const caseStudies = [
+  const exampleProjects = [
     {
       title: "Lead-gen landing page",
-      client: "Harbour Coffee",
+      client: "Coffee Shop Example",
       industry: "Food & Beverage",
       thumbnail: coffeeImage,
-      stat: "+38% conversions",
-      challenge: "Local coffee shop needed to increase online orders and event bookings during slow winter months.",
-      solution: "Built a conversion-focused landing page with compelling imagery, clear menu sections, and an integrated booking system for private events.",
-      stack: ["React", "Tailwind CSS", "Stripe", "Calendly"],
-      results: "Achieved 38% increase in contact form submissions and 25% growth in online orders within first month.",
-      quote: "The new site brought our café to life online. Event bookings doubled!"
+      stat: "Single-page site",
+      challenge: "A local coffee shop wants to increase online orders and event bookings during slow winter months.",
+      solution: "A conversion-focused landing page with compelling imagery, clear menu sections, and an integrated booking system for private events.",
+      stack: ["Modern framework", "Responsive design", "Payment processing", "Booking integration"],
+      results: "Fast-loading single page optimized for conversions with analytics tracking and mobile-first design.",
+      quote: "Example of how we'd approach a food & beverage landing page project."
     },
     {
       title: "6-page site with booking",
-      client: "Atlantic Fitness",
+      client: "Fitness Studio Example",
       industry: "Health & Wellness",
       thumbnail: fitnessImage,
-      stat: "2-week delivery",
-      challenge: "Growing fitness studio needed a professional web presence to compete with larger gym chains and streamline class bookings.",
-      solution: "Developed a 6-page responsive website with integrated class scheduling, trainer profiles, and membership plans.",
-      stack: ["Next.js", "Sanity CMS", "Stripe", "Acuity Scheduling"],
-      results: "Launched in just 2 weeks. Reduced administrative time by 40% through automated bookings and saw 50% increase in new member signups.",
-      quote: "Fast, professional, and exactly what we needed to grow our business."
+      stat: "Multi-page site",
+      challenge: "A growing fitness studio needs a professional web presence to compete with larger gym chains and streamline class bookings.",
+      solution: "A 6-page responsive website with integrated class scheduling, trainer profiles, and membership plans.",
+      stack: ["Modern framework", "Content management", "Payment integration", "Scheduling system"],
+      results: "Complete business website delivered in 2-4 weeks with automated booking system reducing administrative overhead.",
+      quote: "Example of a typical business website with booking functionality."
     },
     {
       title: "Simple member portal",
-      client: "Bluetide Plumbing",
+      client: "Service Business Example",
       industry: "Home Services",
       thumbnail: plumbingImage,
-      stat: "Streamlined invoicing",
-      challenge: "Plumbing company was losing time managing invoices and documents via email, causing delayed payments.",
-      solution: "Created a simple member portal where clients can view invoices, download documents, and make secure payments online.",
-      stack: ["React", "Node.js", "PostgreSQL", "Stripe"],
-      results: "Payment collection time reduced from 45 days to 15 days. Client satisfaction improved significantly.",
-      quote: "Our clients love the portal, and we get paid faster. Win-win!"
+      stat: "Custom web app",
+      challenge: "A service company is losing time managing invoices and documents via email, causing delayed payments.",
+      solution: "A simple member portal where clients can view invoices, download documents, and make secure payments online.",
+      stack: ["Modern framework", "Database", "Authentication", "Payment processing"],
+      results: "Custom web application with user authentication, document management, and automated payment collection.",
+      quote: "Example of a custom MVP web app for service-based businesses."
     }
   ];
 
@@ -126,15 +126,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-              Case Studies
+              Example Projects
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Real results for Atlantic Canada businesses.
+              See what we can build for your business—from landing pages to custom web apps.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {caseStudies.map((study) => (
-              <CaseStudyCard key={study.client} {...study} />
+            {exampleProjects.map((project) => (
+              <CaseStudyCard key={project.client} {...project} />
             ))}
           </div>
         </div>

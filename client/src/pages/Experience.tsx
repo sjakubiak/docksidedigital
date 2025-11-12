@@ -17,6 +17,7 @@ export default function Experience() {
     ],
     "Backend Development": [
       "Node.js & Express",
+      "Java",
       "RESTful APIs",
       "Database Design",
       "Authentication & Security",
@@ -95,7 +96,7 @@ export default function Experience() {
             Technical Experience
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-            Years of experience building and architecting web applications—from simple landing pages to complex full-stack systems.
+            More than 15 years experience serving clients, building and architecting web applications—from simple landing pages to complex full-stack systems.
           </p>
         </div>
 

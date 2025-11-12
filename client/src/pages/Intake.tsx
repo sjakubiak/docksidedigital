@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Copy, ArrowLeft, Send } from "lucide-react";
-import logo from "@assets/DocksideDigital_transparent_x2_1762951830336.png";
+import logo from "@assets/dockside-logo.png";
 
 export default function Intake() {
   const { toast } = useToast();

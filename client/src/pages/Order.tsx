@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, CreditCard } from "lucide-react";
 import { SiStripe } from "react-icons/si";
-import logo from "@assets/DocksideDigital_transparent_x2_1762951830336.png";
+import logo from "@assets/dockside-logo.png";
 
 export default function Order() {
   const { toast } = useToast();

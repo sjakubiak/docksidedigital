@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import heroImage from "@assets/generated_images/Halifax_harbor_hero_background_6b5f3e8a.png";
-import logo from "@assets/DocksideDigital_transparent_x2_1762951830336.png";
+import logo from "@assets/dockside-logo.png";
 
 export default function Hero() {
   const scrollToSection = (id: string) => {

@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Mail } from "lucide-react";
-import logo from "@assets/DocksideDigital_transparent_x2_1762951830336.png";
+import logo from "@assets/dockside-logo.png";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();

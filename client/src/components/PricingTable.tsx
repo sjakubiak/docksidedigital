@@ -56,7 +56,7 @@ const pricingTiers: PricingTier[] = [
       "User authentication",
       "Database setup",
       "3-5 core features",
-      "Stripe integration",
+      "Payment integration",
       "Admin dashboard",
       "API development",
       "Agile delivery",

@@ -41,7 +41,7 @@ export default function Privacy() {
             <li>Name and contact information (email, phone number)</li>
             <li>Business information (company name, industry)</li>
             <li>Project details and requirements</li>
-            <li>Payment information (processed securely through Stripe)</li>
+            <li>Payment information (processed securely through third-party payment processors)</li>
           </ul>
 
           <h3>Automatically Collected Information</h3>
@@ -69,7 +69,7 @@ export default function Privacy() {
             We do not sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:
           </p>
           <ul>
-            <li><strong>Service Providers:</strong> We use Stripe for payment processing and Resend for email communications. These providers have access to your information only to perform services on our behalf.</li>
+            <li><strong>Service Providers:</strong> We use trusted third-party services for payment processing and email communications. These providers have access to your information only to perform services on our behalf.</li>
             <li><strong>Legal Requirements:</strong> We may disclose your information if required by law or in response to valid requests by public authorities.</li>
             <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of assets, your information may be transferred.</li>
           </ul>

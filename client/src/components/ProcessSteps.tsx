@@ -29,7 +29,7 @@ const steps: Step[] = [
   {
     number: 4,
     icon: Code,
-    title: "Build in Replit",
+    title: "Build",
     description: "We build your project iteratively, keeping you updated along the way."
   },
   {

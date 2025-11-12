@@ -8,8 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, CreditCard } from "lucide-react";
-import { SiStripe } from "react-icons/si";
+import { ArrowLeft, CreditCard, Lock } from "lucide-react";
 import logo from "@assets/dockside-logo.png";
 
 export default function Order() {
@@ -310,11 +309,11 @@ export default function Order() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <SiStripe className="h-5 w-5" />
+                  <Lock className="h-5 w-5" />
                   Secure Payment
                 </CardTitle>
                 <CardDescription>
-                  After submitting, you'll receive a secure Stripe payment link via email. We never store card information.
+                  After submitting, you'll receive a secure payment link via email. We never store card information.
                 </CardDescription>
               </CardHeader>
             </Card>

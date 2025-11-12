@@ -35,7 +35,7 @@ export default function Hero() {
           Clean, reliable sites and simple web apps for Atlantic Canada.
         </p>
         
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button
             size="lg"
             className="backdrop-blur-md bg-white/20 hover:bg-white/30 border-white/30 text-white min-w-[200px]"
@@ -54,10 +54,6 @@ export default function Hero() {
             See pricing
           </Button>
         </div>
-        
-        <Badge variant="secondary" className="backdrop-blur-md bg-white/10 text-white border-white/20" data-testid="badge-social-proof">
-          Built with Replit • Next.js • Stripe
-        </Badge>
       </div>
     </section>
   );

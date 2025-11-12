@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import logo from "@assets/DocksideDigital_1762951646514.png";
+import logo from "@assets/DocksideDigital_transparent_x2_1762951830336.png";
 
 export default function Terms() {
   return (

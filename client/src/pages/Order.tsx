@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, CreditCard } from "lucide-react";
 import { SiStripe } from "react-icons/si";
-import logo from "@assets/DocksideDigital_1762951646514.png";
+import logo from "@assets/DocksideDigital_transparent_x2_1762951830336.png";
 
 export default function Order() {
   const { toast } = useToast();
@@ -52,12 +52,49 @@ export default function Order() {
       return;
     }
 
-    // TODO: Wire up to actual API endpoint
-    console.log("Order submitted", formData);
-    toast({
-      title: "Order received!",
-      description: "We've received your order and will send you payment details shortly.",
-    });
+    try {
+      const response = await fetch('/api/order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit order');
+      }
+
+      toast({
+        title: "Order received!",
+        description: "We've received your order. Redirecting to payment...",
+      });
+
+      // Redirect to payment if available
+      if (data.paymentLink) {
+        setTimeout(() => {
+          window.location.href = data.paymentLink;
+        }, 1500);
+      } else if (data.checkoutUrl) {
+        setTimeout(() => {
+          window.location.href = data.checkoutUrl;
+        }, 1500);
+      } else {
+        toast({
+          title: "Order confirmed",
+          description: "We'll send you payment details via email shortly.",
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting order:', error);
+      toast({
+        title: "Error submitting order",
+        description: error instanceof Error ? error.message : "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    }
   };
 
   const getProjectPrice = () => {

@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Copy, ArrowLeft, Send } from "lucide-react";
-import logo from "@assets/DocksideDigital_1762951646514.png";
+import logo from "@assets/DocksideDigital_transparent_x2_1762951830336.png";
 
 export default function Intake() {
   const { toast } = useToast();
@@ -75,12 +75,34 @@ Requirements:
       return;
     }
 
-    // TODO: Wire up to actual API endpoint
-    console.log("Email summary triggered", formData);
-    toast({
-      title: "Email sent!",
-      description: "We've received your intake questionnaire and will be in touch soon.",
-    });
+    try {
+      const summary = generateSummary();
+      const response = await fetch('/api/intake-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ formData, summary }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send email');
+      }
+
+      toast({
+        title: "Email sent!",
+        description: "We've received your intake questionnaire and will be in touch soon.",
+      });
+    } catch (error) {
+      console.error('Error sending intake email:', error);
+      toast({
+        title: "Error sending email",
+        description: error instanceof Error ? error.message : "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

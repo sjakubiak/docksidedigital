@@ -113,7 +113,7 @@ Preferred communication style: Simple, everyday language.
 - Sends intake questionnaire and order confirmation emails
 - From email and API key configured via Replit Connectors
 - Fallback: SMTP environment variables (SMTP_*)
-- Target recipient: `OWNER_EMAIL` environment variable (defaults to hello@dockside.digital)
+- Target recipient: `OWNER_EMAIL` environment variable (defaults to sjakubiak@gmail.com)
 
 **AI Capabilities (Marketing Content):**
 - AI Chatbots & Support: Custom-trained chatbots, FAQ automation, lead qualification

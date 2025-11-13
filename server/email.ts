@@ -39,7 +39,7 @@ async function getUncachableResendClient() {
 }
 
 export async function sendIntakeEmail(formData: any, summary: string) {
-  const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@gmail.com';
+  const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@docksidedigital.ca';
   
   try {
     const { client, fromEmail } = await getUncachableResendClient();
@@ -69,7 +69,7 @@ ${summary}
 }
 
 export async function sendOrderEmail(formData: any) {
-  const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@gmail.com';
+  const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@docksidedigital.ca';
   
   const projectTypeMap: Record<string, string> = {
     landing: 'Landing Page Sprint',

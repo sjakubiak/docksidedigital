@@ -171,7 +171,7 @@ export default function Terms() {
             For questions about these Terms, please contact us at:
           </p>
           <p>
-            Email: <a href="mailto:sjakubiak@gmail.com">sjakubiak@gmail.com</a><br />
+            Email: <a href="mailto:sjakubiak@docksidedigital.ca">sjakubiak@docksidedigital.ca</a><br />
             Location: Halifax, Nova Scotia, Canada
           </p>
         </article>

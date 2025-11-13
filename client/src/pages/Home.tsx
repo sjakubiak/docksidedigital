@@ -341,11 +341,11 @@ export default function Home() {
           </div>
           <div className="mt-8">
             <a
-              href="mailto:sjakubiak@gmail.com"
+              href="mailto:sjakubiak@docksidedigital.ca"
               className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
               data-testid="link-contact-email"
             >
-              Or email us at sjakubiak@gmail.com
+              Or email us at sjakubiak@docksidedigital.ca
             </a>
           </div>
         </div>

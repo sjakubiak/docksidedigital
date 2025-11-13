@@ -26,7 +26,9 @@ export default function Hero() {
       />
       
       <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-8 text-center">
-        <img src={logo} alt="Dockside Digital" className="h-32 md:h-40 lg:h-48 w-auto mx-auto mb-8 drop-shadow-2xl brightness-110" style={{ filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.3))' }} />
+        <div className="flex justify-center mb-8">
+          <img src={logo} alt="Dockside Digital" className="h-28 md:h-36 lg:h-40 w-auto" style={{ filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 24px rgba(255, 255, 255, 0.2)) brightness(1.1)' }} />
+        </div>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 leading-tight drop-shadow-md">
           AI-Driven SaaS & Websites Built for Local Business
         </h1>

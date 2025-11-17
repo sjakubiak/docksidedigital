@@ -1,52 +1,28 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-let connectionSettings: any;
-
-async function getCredentials() {
-  const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
-  const xReplitToken = process.env.REPL_IDENTITY 
-    ? 'repl ' + process.env.REPL_IDENTITY 
-    : process.env.WEB_REPL_RENEWAL 
-    ? 'depl ' + process.env.WEB_REPL_RENEWAL 
-    : null;
-
-  if (!xReplitToken) {
-    throw new Error('X_REPLIT_TOKEN not found for repl/depl');
-  }
-
-  connectionSettings = await fetch(
-    'https://' + hostname + '/api/v2/connection?include_secrets=true&connector_names=resend',
-    {
-      headers: {
-        'Accept': 'application/json',
-        'X_REPLIT_TOKEN': xReplitToken
-      }
+// Create SMTP transporter using Namespro settings
+function createTransporter() {
+  return nodemailer.createTransport({
+    host: 'securemail.webnames.ca',
+    port: 587,
+    secure: false, // Use STARTTLS
+    auth: {
+      user: 'sjakubiak@docksidedigital.ca',
+      pass: process.env.SMTP_PASSWORD
     }
-  ).then(res => res.json()).then(data => data.items?.[0]);
-
-  if (!connectionSettings || (!connectionSettings.settings.api_key)) {
-    throw new Error('Resend not connected');
-  }
-  return {apiKey: connectionSettings.settings.api_key, fromEmail: connectionSettings.settings.from_email};
-}
-
-async function getUncachableResendClient() {
-  const { apiKey } = await getCredentials();
-  return {
-    client: new Resend(apiKey),
-    fromEmail: connectionSettings.settings.from_email
-  };
+  });
 }
 
 export async function sendIntakeEmail(formData: any, summary: string) {
   const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@docksidedigital.ca';
+  const fromEmail = 'sjakubiak@docksidedigital.ca';
   
   try {
-    const { client, fromEmail } = await getUncachableResendClient();
+    const transporter = createTransporter();
     
-    const { data, error } = await client.emails.send({
-      from: fromEmail,
-      to: [ownerEmail],
+    const info = await transporter.sendMail({
+      from: `"Dockside Digital" <${fromEmail}>`,
+      to: ownerEmail,
       subject: `New Intake Questionnaire from ${formData.contactName || formData.businessName || 'Potential Client'}`,
       html: `
         <h2>New Client Intake Questionnaire Received</h2>
@@ -56,12 +32,8 @@ ${summary}
       `,
     });
 
-    if (error) {
-      console.error('Failed to send intake email:', error);
-      throw error;
-    }
-
-    return { success: true, messageId: data?.id };
+    console.log('Intake email sent successfully:', info.messageId);
+    return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error('Error sending intake email:', error);
     throw error;
@@ -70,6 +42,7 @@ ${summary}
 
 export async function sendOrderEmail(formData: any) {
   const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@docksidedigital.ca';
+  const fromEmail = 'sjakubiak@docksidedigital.ca';
   
   const projectTypeMap: Record<string, string> = {
     landing: 'Landing Page Sprint',
@@ -85,11 +58,11 @@ export async function sendOrderEmail(formData: any) {
   };
 
   try {
-    const { client, fromEmail } = await getUncachableResendClient();
+    const transporter = createTransporter();
     
-    const { data, error } = await client.emails.send({
-      from: fromEmail,
-      to: [ownerEmail],
+    const info = await transporter.sendMail({
+      from: `"Dockside Digital" <${fromEmail}>`,
+      to: ownerEmail,
       subject: `New Order from ${formData.name}`,
       html: `
         <h2>New Order Received</h2>
@@ -113,12 +86,8 @@ export async function sendOrderEmail(formData: any) {
       `,
     });
 
-    if (error) {
-      console.error('Failed to send order email:', error);
-      throw error;
-    }
-
-    return { success: true, messageId: data?.id };
+    console.log('Order email sent successfully:', info.messageId);
+    return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error('Error sending order email:', error);
     throw error;

@@ -4,11 +4,14 @@ import nodemailer from 'nodemailer';
 function createTransporter() {
   return nodemailer.createTransport({
     host: 'securemail.webnames.ca',
-    port: 587,
-    secure: false, // Use STARTTLS
+    port: 465,
+    secure: true, // Use SSL
     auth: {
       user: 'sjakubiak@docksidedigital.ca',
       pass: process.env.SMTP_PASSWORD
+    },
+    tls: {
+      rejectUnauthorized: false
     }
   });
 }

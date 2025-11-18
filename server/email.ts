@@ -6,8 +6,8 @@ function createTransporter() {
   
   return nodemailer.createTransport({
     host: 'smtp0001.neo.space',
-    port: 465,
-    secure: true, // Use SSL
+    port: 587,
+    secure: false, // Use STARTTLS
     auth: {
       user: smtpUser,
       pass: process.env.SMTP_PASSWORD

@@ -1,13 +1,15 @@
 import nodemailer from 'nodemailer';
 
-// Create SMTP transporter using Namespro settings
+// Create SMTP transporter using Neo mail server
 function createTransporter() {
+  const smtpUser = process.env.SMTP_USER || 'sjakubiak@docksidedigital.ca';
+  
   return nodemailer.createTransport({
-    host: 'securemail.webnames.ca',
+    host: 'smtp0001.neo.space',
     port: 465,
     secure: true, // Use SSL
     auth: {
-      user: 'sjakubiak@docksidedigital.ca',
+      user: smtpUser,
       pass: process.env.SMTP_PASSWORD
     },
     tls: {

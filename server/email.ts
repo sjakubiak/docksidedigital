@@ -49,6 +49,8 @@ export async function sendIntakeEmail(formData: any, summary: string) {
   try {
     const { client, fromEmail } = await getUncachableResendClient();
     
+    console.log('Sending intake email from:', fromEmail, 'to:', ownerEmail);
+    
     const result = await client.emails.send({
       from: `Dockside Digital <${fromEmail}>`,
       to: ownerEmail,
@@ -61,6 +63,7 @@ ${summary}
       `,
     });
 
+    console.log('Resend API response:', JSON.stringify(result, null, 2));
     console.log('Intake email sent successfully:', result.data?.id);
     return { success: true, messageId: result.data?.id };
   } catch (error) {

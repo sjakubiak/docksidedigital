@@ -30,11 +30,11 @@ export default function Hero() {
           <img src={logo} alt="Dockside Digital" className="h-28 md:h-36 lg:h-40 w-auto" style={{ filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 24px rgba(255, 255, 255, 0.2)) brightness(1.1)' }} />
         </div>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 leading-tight drop-shadow-md">
-          AI-Driven SaaS & Websites Built for Local Business
+          Web Development in Halifax, Nova Scotia
         </h1>
         
         <p className="text-lg md:text-xl text-white mb-8 leading-relaxed max-w-2xl mx-auto drop-shadow-md">
-          Clean, reliable sites and simple web apps for Atlantic Canada.
+          AI-driven websites and web apps for Atlantic Canada businesses. Clean, reliable solutions built in Halifax.
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

@@ -301,12 +301,12 @@ export default function Home() {
           </h2>
           <div className="space-y-4 text-lg leading-relaxed text-muted-foreground">
             <p>
-              We&apos;re a Halifax-based web studio that believes in practical, fast iterations focused on outcomes. 
-              No bloat, no endless meetings—just clean, reliable work that helps Atlantic Canada businesses grow.
+              We&apos;re a web development studio based in Halifax, Nova Scotia, serving businesses across Dartmouth, Bedford, and Atlantic Canada. 
+              We believe in practical, fast iterations focused on outcomes—no bloat, no endless meetings, just clean, reliable work that helps local businesses grow.
             </p>
             <p>
-              Whether you need a simple landing page or a custom web application, we bring the same 
-              attention to detail and commitment to quality that defines our maritime roots.
+              Whether you need a simple landing page, a business website, or a custom web application, our Halifax team brings 
+              the same attention to detail and commitment to quality that defines our maritime roots.
             </p>
           </div>
         </div>
@@ -329,6 +329,7 @@ export default function Home() {
             >
               Take the Intake Questionnaire
             </Button>
+            {/* Temporarily disabled until Stripe integration is built
             <Button
               size="lg"
               variant="outline"
@@ -338,6 +339,7 @@ export default function Home() {
             >
               Place an Order
             </Button>
+            */}
           </div>
           <div className="mt-8">
             <a

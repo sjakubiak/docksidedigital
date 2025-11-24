@@ -226,6 +226,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get all intake submissions
+  app.get("/api/intake-submissions", async (_req, res) => {
+    try {
+      const submissions = await storage.getAllIntakeSubmissions();
+      res.json({ ok: true, submissions });
+    } catch (error) {
+      console.error("Error fetching intake submissions:", error);
+      res.status(500).json({ 
+        error: "Failed to fetch intake submissions" 
+      });
+    }
+  });
+
+  // Get all orders
+  app.get("/api/orders", async (_req, res) => {
+    try {
+      const orders = await storage.getAllOrders();
+      res.json({ ok: true, orders });
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      res.status(500).json({ 
+        error: "Failed to fetch orders" 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

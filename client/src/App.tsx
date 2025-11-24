@@ -9,6 +9,7 @@ import Order from "@/pages/Order";
 import Experience from "@/pages/Experience";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
+import ReviewIntake from "@/pages/ReviewIntake";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -20,6 +21,7 @@ function Router() {
       <Route path="/experience" component={Experience} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
+      <Route path="/review-intake" component={ReviewIntake} />
       <Route component={NotFound} />
     </Switch>
   );

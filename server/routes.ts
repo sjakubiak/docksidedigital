@@ -226,8 +226,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get all intake submissions
-  app.get("/api/intake-submissions", async (_req, res) => {
+  // Middleware to check admin access token
+  const checkAdminAccess = (req: any, res: any, next: any) => {
+    const accessToken = process.env.ADMIN_ACCESS_TOKEN;
+    
+    // If no admin token is set, deny access
+    if (!accessToken) {
+      return res.status(403).json({ 
+        error: "Admin access not configured. Please set ADMIN_ACCESS_TOKEN environment variable." 
+      });
+    }
+
+    // Check for token in header or query parameter
+    const providedToken = req.headers['x-admin-token'] || req.query.token;
+    
+    if (providedToken !== accessToken) {
+      return res.status(401).json({ 
+        error: "Unauthorized. Invalid or missing admin token." 
+      });
+    }
+
+    next();
+  };
+
+  // Get all intake submissions (protected)
+  app.get("/api/intake-submissions", checkAdminAccess, async (_req, res) => {
     try {
       const submissions = await storage.getAllIntakeSubmissions();
       res.json({ ok: true, submissions });
@@ -239,8 +262,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get all orders
-  app.get("/api/orders", async (_req, res) => {
+  // Get all orders (protected)
+  app.get("/api/orders", checkAdminAccess, async (_req, res) => {
     try {
       const orders = await storage.getAllOrders();
       res.json({ ok: true, orders });

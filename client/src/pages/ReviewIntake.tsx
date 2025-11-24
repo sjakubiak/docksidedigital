@@ -1,13 +1,93 @@
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, XCircle, Mail, Phone, Building, Calendar } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { CheckCircle2, XCircle, Mail, Phone, Building, Calendar, LogOut } from "lucide-react";
 import type { IntakeSubmission } from "@shared/schema";
+import { queryClient } from "@/lib/queryClient";
 
-export default function ReviewIntake() {
-  const { data, isLoading } = useQuery<{ ok: boolean; submissions: IntakeSubmission[] }>({
-    queryKey: ['/api/intake-submissions'],
+const ADMIN_TOKEN_KEY = "dockside_admin_token";
+
+function LoginForm({ onLogin }: { onLogin: (token: string) => void }) {
+  const [token, setToken] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await fetch(`/api/intake-submissions?token=${encodeURIComponent(token)}`);
+      
+      if (response.ok) {
+        localStorage.setItem(ADMIN_TOKEN_KEY, token);
+        onLogin(token);
+      } else {
+        const data = await response.json();
+        setError(data.error || "Invalid access token");
+      }
+    } catch (error) {
+      setError("Failed to verify token");
+    }
+  };
+
+  return (
+    <div className="container mx-auto py-12 px-4 max-w-md">
+      <Card>
+        <CardHeader>
+          <CardTitle>Admin Access Required</CardTitle>
+          <CardDescription>Enter your admin token to view submissions</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="token">Access Token</Label>
+              <Input
+                id="token"
+                type="password"
+                value={token}
+                onChange={(e) => setToken(e.target.value)}
+                placeholder="Enter admin token"
+                required
+                data-testid="input-admin-token"
+              />
+            </div>
+            {error && (
+              <p className="text-sm text-destructive" data-testid="text-error">
+                {error}
+              </p>
+            )}
+            <Button type="submit" className="w-full" data-testid="button-login">
+              Access Review Page
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function ReviewContent({ adminToken, onLogout }: { adminToken: string; onLogout: () => void }) {
+  const { data, isLoading, error } = useQuery<{ ok: boolean; submissions: IntakeSubmission[] }>({
+    queryKey: ['/api/intake-submissions', { token: adminToken }],
+    queryFn: async () => {
+      const response = await fetch(`/api/intake-submissions?token=${encodeURIComponent(adminToken)}`);
+      
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+          localStorage.removeItem(ADMIN_TOKEN_KEY);
+          onLogout();
+          throw new Error("Unauthorized");
+        }
+        throw new Error("Failed to fetch submissions");
+      }
+      
+      return response.json();
+    },
   });
 
   if (isLoading) {
@@ -18,13 +98,35 @@ export default function ReviewIntake() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="container mx-auto py-12 px-4">
+        <Card>
+          <CardContent className="py-12 text-center">
+            <p className="text-destructive">Failed to load submissions</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   const submissions = data?.submissions || [];
 
   return (
     <div className="container mx-auto py-12 px-4 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2" data-testid="text-page-title">Intake Submissions</h1>
-        <p className="text-muted-foreground">Review all client intake questionnaire submissions</p>
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="text-4xl font-bold mb-2" data-testid="text-page-title">Intake Submissions</h1>
+          <p className="text-muted-foreground">Review all client intake questionnaire submissions</p>
+        </div>
+        <Button
+          variant="outline"
+          onClick={onLogout}
+          data-testid="button-logout"
+        >
+          <LogOut className="w-4 h-4 mr-2" />
+          Logout
+        </Button>
       </div>
 
       {submissions.length === 0 ? (
@@ -38,7 +140,7 @@ export default function ReviewIntake() {
           {submissions.map((submission) => (
             <Card key={submission.id} data-testid={`card-submission-${submission.id}`}>
               <CardHeader>
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
                     <CardTitle className="flex items-center gap-2" data-testid={`text-business-name-${submission.id}`}>
                       <Building className="w-5 h-5" />
@@ -203,4 +305,31 @@ export default function ReviewIntake() {
       )}
     </div>
   );
+}
+
+export default function ReviewIntake() {
+  const [adminToken, setAdminToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const savedToken = localStorage.getItem(ADMIN_TOKEN_KEY);
+    if (savedToken) {
+      setAdminToken(savedToken);
+    }
+  }, []);
+
+  const handleLogin = (token: string) => {
+    setAdminToken(token);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem(ADMIN_TOKEN_KEY);
+    setAdminToken(null);
+    queryClient.invalidateQueries({ queryKey: ['/api/intake-submissions'] });
+  };
+
+  if (!adminToken) {
+    return <LoginForm onLogin={handleLogin} />;
+  }
+
+  return <ReviewContent adminToken={adminToken} onLogout={handleLogout} />;
 }

@@ -57,8 +57,8 @@ Preferred communication style: Simple, everyday language.
 
 **API Endpoints:**
 - `GET /api/status` - Health check endpoint
-- `POST /api/intake-email` - Intake questionnaire submission
-- `POST /api/order` - Order form submission with Stripe integration
+- `POST /api/intake-email` - Intake questionnaire submission with database storage and email notification
+- `POST /api/order` - Order form submission with database storage, email notification, and Stripe integration
 
 **Request Handling:**
 - JSON body parsing with raw body preservation for webhook verification
@@ -73,31 +73,44 @@ Preferred communication style: Simple, everyday language.
 ### Data Storage Solutions
 
 **Database:**
-- Configured for PostgreSQL via Drizzle ORM
-- Neon Database serverless driver (@neondatabase/serverless)
+- PostgreSQL via Drizzle ORM with Neon serverless driver
+- Database connection established in `server/db.ts`
 - Schema definitions in `shared/schema.ts`
-- Migration files in `./migrations` directory
+- Active tables:
+  - `intake_submissions` - Stores all intake questionnaire submissions with email tracking
+  - `orders` - Stores all order form submissions with email and payment tracking
+- Email tracking fields: `emailSent` (boolean), `emailMessageId` (text)
 - Database configuration expects `DATABASE_URL` environment variable
+- Migrations managed via `npm run db:push`
 
-**In-Memory Storage:**
-- Fallback MemStorage implementation for user data (development/testing)
-- Interface-based storage abstraction (IStorage) for potential future database implementations
+**Storage Layer:**
+- `server/storage.ts` - Storage interface (IStorage) and implementation (DbStorage)
+- Methods for creating intake submissions and orders
+- All form submissions persisted to PostgreSQL regardless of email delivery status
 
 **Session Management:**
 - Connect-pg-simple for PostgreSQL session storage
 - Session data structure supports user authentication flows
 
-### Authentication and Authorization
+### Form Submission & Data Persistence
 
-**Current State:**
-- User schema defined with username-based lookup
-- Session infrastructure in place but not actively used in current routes
-- No active authentication on public-facing forms (intake/order)
+**Intake Submissions:**
+- All intake questionnaire submissions saved to `intake_submissions` table
+- Fields: business info, contact details, project goals, timeline, budget, features
+- Email tracking: `emailSent` boolean and `emailMessageId` for Mailgun message IDs
+- API returns 202 status with error details if email fails, 200 if successful
 
-**User Schema:**
-- User model with unique IDs
-- Username-based user lookup capability
-- Extensible for future authentication features
+**Order Submissions:**
+- All order form submissions saved to `orders` table
+- Fields: contact info, project type, care plan, description, dates
+- Payment tracking: `paymentStatus` field for Stripe integration
+- Email tracking: `emailSent` boolean and `emailMessageId` for Mailgun message IDs
+- API responses include `emailSent`, `emailError` (if applicable), and database record ID
+
+**Error Handling:**
+- Form submissions saved to database even if email delivery fails
+- Email failures captured and reported in API responses
+- Maintains data integrity while providing accurate status feedback
 
 ### External Dependencies
 

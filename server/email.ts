@@ -32,7 +32,8 @@ function getNeoCredentials(): NeoCredentials {
 function createNeoTransport(): Transporter {
   const { user, password } = getNeoCredentials();
 
-  // Use port 465 with SSL/TLS
+  // Neo uses smtp0001.neo.space even for custom domains
+  // Username should be full email (e.g., info@docksidedigital.ca)
   const transport = nodemailer.createTransport({
     host: 'smtp0001.neo.space',
     port: 465,

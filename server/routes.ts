@@ -237,12 +237,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
 
-    // Check for token in header or query parameter
-    const providedToken = req.headers['x-admin-token'] || req.query.token;
+    // Get token from Authorization header (Bearer token format)
+    const authHeader = req.headers.authorization;
+    let providedToken: string | undefined;
     
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      providedToken = authHeader.substring(7);
+    }
+    
+    // Validate token (must be a string, no arrays or objects)
+    if (!providedToken || typeof providedToken !== 'string') {
+      return res.status(401).json({ 
+        error: "Unauthorized. Missing or invalid admin token." 
+      });
+    }
+    
+    // Compare tokens securely
     if (providedToken !== accessToken) {
       return res.status(401).json({ 
-        error: "Unauthorized. Invalid or missing admin token." 
+        error: "Unauthorized. Invalid admin token." 
       });
     }
 

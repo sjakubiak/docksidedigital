@@ -21,7 +21,11 @@ function LoginForm({ onLogin }: { onLogin: (token: string) => void }) {
     setError("");
 
     try {
-      const response = await fetch(`/api/intake-submissions?token=${encodeURIComponent(token)}`);
+      const response = await fetch('/api/intake-submissions', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       
       if (response.ok) {
         localStorage.setItem(ADMIN_TOKEN_KEY, token);
@@ -73,9 +77,13 @@ function LoginForm({ onLogin }: { onLogin: (token: string) => void }) {
 
 function ReviewContent({ adminToken, onLogout }: { adminToken: string; onLogout: () => void }) {
   const { data, isLoading, error } = useQuery<{ ok: boolean; submissions: IntakeSubmission[] }>({
-    queryKey: ['/api/intake-submissions', { token: adminToken }],
+    queryKey: ['/api/intake-submissions'],
     queryFn: async () => {
-      const response = await fetch(`/api/intake-submissions?token=${encodeURIComponent(adminToken)}`);
+      const response = await fetch('/api/intake-submissions', {
+        headers: {
+          'Authorization': `Bearer ${adminToken}`
+        }
+      });
       
       if (!response.ok) {
         if (response.status === 401 || response.status === 403) {

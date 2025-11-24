@@ -26,13 +26,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { formData, summary } = validationResult.data;
 
-      // Send email via Resend
-      const result = await sendIntakeEmail(formData, summary);
+      // Save to database first
+      let emailMessageId = '';
+      let emailSent = 'false';
+      
+      try {
+        const result = await sendIntakeEmail(formData, summary);
+        emailMessageId = result.messageId || '';
+        emailSent = 'true';
+      } catch (emailError) {
+        console.error("Email sending failed:", emailError);
+        // Continue to save in database even if email fails
+      }
+
+      // Save to database
+      const savedSubmission = await storage.createIntakeSubmission({
+        businessName: formData.businessName,
+        contactName: formData.contactName,
+        email: formData.email,
+        phone: formData.phone,
+        website: formData.website,
+        projectGoals: formData.projectGoals,
+        targetAudience: formData.targetAudience,
+        competitors: formData.competitors,
+        timeline: formData.timeline,
+        budget: formData.budget,
+        features: formData.features,
+        brandGuidelines: formData.brandGuidelines,
+        additionalInfo: formData.additionalInfo,
+        emailSent,
+        emailMessageId,
+      });
 
       res.json({ 
         ok: true, 
         message: "Intake questionnaire sent successfully",
-        messageId: result.messageId
+        messageId: emailMessageId,
+        submissionId: savedSubmission.id
       });
     } catch (error) {
       console.error("Error processing intake submission:", error);
@@ -58,7 +88,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const formData = validationResult.data;
 
       // Send email notification
-      const emailResult = await sendOrderEmail(formData);
+      let emailMessageId = '';
+      let emailSent = 'false';
+      
+      try {
+        const emailResult = await sendOrderEmail(formData);
+        emailMessageId = emailResult.messageId || '';
+        emailSent = 'true';
+      } catch (emailError) {
+        console.error("Email sending failed:", emailError);
+        // Continue to save in database even if email fails
+      }
+
+      // Save to database
+      const savedOrder = await storage.createOrder({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        projectType: formData.projectType,
+        carePlan: formData.carePlan,
+        description: formData.description,
+        startDate: formData.startDate,
+        deadline: formData.deadline,
+        emailSent,
+        emailMessageId,
+        paymentStatus: null,
+      });
 
       // Check for payment link environment variables
       const paymentLinkKey = `STRIPE_PAYMENT_LINK_${formData.projectType.toUpperCase()}`;
@@ -70,7 +126,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           message: "Order received successfully",
           paymentLink,
           emailSent: true,
-          messageId: emailResult.messageId
+          messageId: emailMessageId
         });
       }
 
@@ -123,7 +179,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             message: "Order received successfully",
             checkoutUrl: session.url,
             emailSent: true,
-            messageId: emailResult.messageId
+            messageId: emailMessageId
           });
         } catch (stripeError) {
           console.error("Stripe checkout session creation failed:", stripeError);
@@ -136,7 +192,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ok: true,
         message: "Order received successfully. We'll send you payment details via email.",
         emailSent: true,
-        messageId: emailResult.messageId
+        messageId: emailMessageId
       });
     } catch (error) {
       console.error("Error processing order:", error);

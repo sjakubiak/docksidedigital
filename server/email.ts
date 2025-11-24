@@ -20,6 +20,7 @@ function getNeoCredentials(): NeoCredentials {
     throw new Error('Neo SMTP credentials not configured. Please set NEO_SMTP_USER and NEO_SMTP_PASSWORD secrets.');
   }
 
+  // Neo requires FULL email address as username (per their documentation)
   // Log redacted credentials for debugging
   const maskedUser = user.substring(0, user.length - 3) + '***';
   const maskedPassword = '***' + password.substring(password.length - 3);

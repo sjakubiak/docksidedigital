@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp, boolean } from 'drizzle-orm/pg-core';
 import { createInsertSchema } from 'drizzle-zod';
 
 // Database Tables
@@ -20,7 +20,7 @@ export const intakeSubmissions = pgTable('intake_submissions', {
   features: text('features'),
   brandGuidelines: text('brand_guidelines'),
   additionalInfo: text('additional_info'),
-  emailSent: text('email_sent').notNull().default('false'),
+  emailSent: boolean('email_sent').notNull().default(false),
   emailMessageId: text('email_message_id'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
@@ -45,7 +45,7 @@ export const orders = pgTable('orders', {
   description: text('description'),
   startDate: text('start_date'),
   deadline: text('deadline'),
-  emailSent: text('email_sent').notNull().default('false'),
+  emailSent: boolean('email_sent').notNull().default(false),
   emailMessageId: text('email_message_id'),
   paymentStatus: text('payment_status'),
   createdAt: timestamp('created_at').notNull().defaultNow(),

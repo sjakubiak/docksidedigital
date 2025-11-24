@@ -26,16 +26,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { formData, summary } = validationResult.data;
 
-      // Save to database first
-      let emailMessageId = '';
-      let emailSent = 'false';
+      // Send email notification
+      let emailMessageId: string | null = null;
+      let emailSent = false;
+      let emailError: string | undefined;
       
       try {
         const result = await sendIntakeEmail(formData, summary);
-        emailMessageId = result.messageId || '';
-        emailSent = 'true';
-      } catch (emailError) {
-        console.error("Email sending failed:", emailError);
+        emailMessageId = result.messageId || null;
+        emailSent = true;
+      } catch (error: any) {
+        console.error("Email sending failed:", error);
+        emailError = error.message || "Email delivery failed";
         // Continue to save in database even if email fails
       }
 
@@ -58,9 +60,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         emailMessageId,
       });
 
+      // Return appropriate response based on email status
+      if (!emailSent) {
+        return res.status(202).json({ 
+          ok: true, 
+          message: "Intake questionnaire received and saved. Email notification could not be sent.",
+          emailSent: false,
+          emailError,
+          submissionId: savedSubmission.id
+        });
+      }
+
       res.json({ 
         ok: true, 
         message: "Intake questionnaire sent successfully",
+        emailSent: true,
         messageId: emailMessageId,
         submissionId: savedSubmission.id
       });
@@ -88,15 +102,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const formData = validationResult.data;
 
       // Send email notification
-      let emailMessageId = '';
-      let emailSent = 'false';
+      let emailMessageId: string | null = null;
+      let emailSent = false;
+      let emailError: string | undefined;
       
       try {
         const emailResult = await sendOrderEmail(formData);
-        emailMessageId = emailResult.messageId || '';
-        emailSent = 'true';
-      } catch (emailError) {
-        console.error("Email sending failed:", emailError);
+        emailMessageId = emailResult.messageId || null;
+        emailSent = true;
+      } catch (error: any) {
+        console.error("Email sending failed:", error);
+        emailError = error.message || "Email delivery failed";
         // Continue to save in database even if email fails
       }
 
@@ -123,10 +139,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (paymentLink) {
         return res.json({
           ok: true,
-          message: "Order received successfully",
+          message: emailSent ? "Order received successfully" : "Order received and saved. Email notification could not be sent.",
           paymentLink,
-          emailSent: true,
-          messageId: emailMessageId
+          emailSent,
+          messageId: emailMessageId,
+          emailError,
+          orderId: savedOrder.id
         });
       }
 
@@ -176,10 +194,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
           return res.json({
             ok: true,
-            message: "Order received successfully",
+            message: emailSent ? "Order received successfully" : "Order received and saved. Email notification could not be sent.",
             checkoutUrl: session.url,
-            emailSent: true,
-            messageId: emailMessageId
+            emailSent,
+            messageId: emailMessageId,
+            emailError,
+            orderId: savedOrder.id
           });
         } catch (stripeError) {
           console.error("Stripe checkout session creation failed:", stripeError);
@@ -190,9 +210,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // If no payment processing available, just confirm receipt
       res.json({
         ok: true,
-        message: "Order received successfully. We'll send you payment details via email.",
-        emailSent: true,
-        messageId: emailMessageId
+        message: emailSent 
+          ? "Order received successfully. We'll send you payment details via email."
+          : "Order received and saved. Email notification could not be sent.",
+        emailSent,
+        messageId: emailMessageId,
+        emailError,
+        orderId: savedOrder.id
       });
     } catch (error) {
       console.error("Error processing order:", error);

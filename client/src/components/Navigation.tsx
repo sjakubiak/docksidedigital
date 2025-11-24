@@ -82,9 +82,11 @@ export default function Navigation() {
             >
               Intake Form
             </Button>
+            {/* Temporarily disabled until Stripe integration is built
             <Button onClick={() => setLocation("/order")} data-testid="button-order">
               Place Order
             </Button>
+            */}
           </div>
 
           <Sheet>
@@ -126,9 +128,11 @@ export default function Navigation() {
                   >
                     Intake Form
                   </Button>
+                  {/* Temporarily disabled until Stripe integration is built
                   <Button onClick={() => setLocation("/order")} data-testid="button-mobile-order">
                     Place Order
                   </Button>
+                  */}
                 </div>
               </div>
             </SheetContent>

@@ -48,11 +48,13 @@ export default function Footer() {
                   Intake Form
                 </Link>
               </li>
+              {/* Temporarily disabled until Stripe integration is built
               <li>
                 <Link href="/order" className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-order">
                   Place Order
                 </Link>
               </li>
+              */}
               <li>
                 <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-block" data-testid="link-footer-privacy">
                   Privacy

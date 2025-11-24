@@ -1,79 +1,153 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
+import type { Transporter } from 'nodemailer';
 
-let connectionSettings: any;
+// Track authentication failures to prevent IP blocking
+let authFailureCount = 0;
+const MAX_AUTH_FAILURES = 2;
 
-async function getCredentials() {
-  const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
-  const xReplitToken = process.env.REPL_IDENTITY 
-    ? 'repl ' + process.env.REPL_IDENTITY 
-    : process.env.WEB_REPL_RENEWAL 
-    ? 'depl ' + process.env.WEB_REPL_RENEWAL 
-    : null;
-
-  if (!xReplitToken) {
-    throw new Error('X_REPLIT_TOKEN not found for repl/depl');
-  }
-
-  connectionSettings = await fetch(
-    'https://' + hostname + '/api/v2/connection?include_secrets=true&connector_names=resend',
-    {
-      headers: {
-        'Accept': 'application/json',
-        'X_REPLIT_TOKEN': xReplitToken
-      }
-    }
-  ).then(res => res.json()).then(data => data.items?.[0]);
-
-  if (!connectionSettings || (!connectionSettings.settings.api_key)) {
-    throw new Error('Resend not connected');
-  }
-  return {
-    apiKey: connectionSettings.settings.api_key, 
-    fromEmail: connectionSettings.settings.from_email
-  };
+interface NeoCredentials {
+  user: string;
+  password: string;
+  fromEmail: string;
 }
 
-// WARNING: Never cache this client.
-// Access tokens expire, so a new client must be created each time.
-async function getUncachableResendClient() {
-  const { apiKey, fromEmail } = await getCredentials();
-  return {
-    client: new Resend(apiKey),
-    fromEmail: fromEmail
-  };
+function getNeoCredentials(): NeoCredentials {
+  const user = process.env.NEO_SMTP_USER;
+  const password = process.env.NEO_SMTP_PASSWORD;
+  const fromEmail = process.env.NEO_SMTP_FROM || user || 'sjakubiak@docksidedigital.ca';
+
+  if (!user || !password) {
+    throw new Error('Neo SMTP credentials not configured. Please set NEO_SMTP_USER and NEO_SMTP_PASSWORD secrets.');
+  }
+
+  // Log redacted credentials for debugging
+  const maskedUser = user.substring(0, user.length - 3) + '***';
+  const maskedPassword = '***' + password.substring(password.length - 3);
+  console.log(`Neo SMTP configured: ${maskedUser} (password: ${maskedPassword})`);
+
+  return { user, password, fromEmail };
 }
 
-export async function sendIntakeEmail(formData: any, summary: string) {
-  const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@docksidedigital.ca';
-  
+function createNeoTransport(): Transporter {
+  const { user, password } = getNeoCredentials();
+
+  // Use port 587 with STARTTLS (most reliable)
+  const transport = nodemailer.createTransport({
+    host: 'smtp0001.neo.space',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    requireTLS: true, // Force STARTTLS
+    auth: {
+      user,
+      pass: password,
+    },
+    tls: {
+      minVersion: 'TLSv1.2',
+      rejectUnauthorized: true,
+    },
+    logger: false,
+    debug: false,
+  });
+
+  return transport;
+}
+
+async function sendEmailWithRetry(
+  transporter: Transporter,
+  mailOptions: any,
+  emailType: string
+): Promise<{ success: boolean; messageId?: string }> {
+  // Check if we've exceeded auth failure limit
+  if (authFailureCount >= MAX_AUTH_FAILURES) {
+    throw new Error(
+      `Email sending blocked after ${MAX_AUTH_FAILURES} authentication failures. ` +
+      'Please verify your Neo SMTP credentials and contact Neo support at hello@neo.space to unblock your IP.'
+    );
+  }
+
   try {
-    const { client, fromEmail } = await getUncachableResendClient();
+    console.log(`Sending ${emailType} email from:`, mailOptions.from, 'to:', mailOptions.to);
     
-    console.log('Sending intake email from:', fromEmail, 'to:', ownerEmail);
+    const info = await transporter.sendMail(mailOptions);
     
-    const result = await client.emails.send({
-      from: `Dockside Digital <${fromEmail}>`,
-      to: ownerEmail,
-      subject: `New Intake Questionnaire from ${formData.contactName || formData.businessName || 'Potential Client'}`,
-      html: `
-        <h2>New Client Intake Questionnaire Received</h2>
-        <pre style="background: #f5f5f5; padding: 20px; border-radius: 8px; font-family: monospace; white-space: pre-wrap;">
-${summary}
-        </pre>
-      `,
+    console.log(`${emailType} email sent successfully:`, {
+      messageId: info.messageId,
+      accepted: info.accepted,
+      rejected: info.rejected,
     });
 
-    console.log('Resend API response:', JSON.stringify(result, null, 2));
-    console.log('Intake email sent successfully:', result.data?.id);
-    return { success: true, messageId: result.data?.id };
-  } catch (error) {
-    console.error('Error sending intake email:', error);
+    // Reset auth failure count on success
+    authFailureCount = 0;
+
+    return { success: true, messageId: info.messageId };
+  } catch (error: any) {
+    const errorCode = error.responseCode || error.code;
+    
+    console.error(`Error sending ${emailType} email:`, {
+      code: errorCode,
+      message: error.message,
+      command: error.command,
+    });
+
+    // Handle authentication failures - DO NOT RETRY to avoid IP blocking
+    if (errorCode === 535 || error.message?.includes('authentication') || error.message?.includes('Invalid login')) {
+      authFailureCount++;
+      console.error(`Authentication failure ${authFailureCount}/${MAX_AUTH_FAILURES}`);
+      
+      if (authFailureCount >= MAX_AUTH_FAILURES) {
+        throw new Error(
+          'Multiple authentication failures detected. Email sending blocked to prevent IP blocking. ' +
+          'Please verify your Neo SMTP credentials are correct and contact Neo support at hello@neo.space.'
+        );
+      }
+      
+      throw new Error('SMTP authentication failed. Please verify your Neo email credentials.');
+    }
+
+    // Retry transient errors once with backoff
+    if (errorCode === 421 || errorCode === 450 || errorCode === 451 || errorCode === 452) {
+      console.log(`Transient error (${errorCode}), retrying in 5 seconds...`);
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      
+      try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log(`${emailType} email sent successfully on retry:`, info.messageId);
+        authFailureCount = 0;
+        return { success: true, messageId: info.messageId };
+      } catch (retryError: any) {
+        console.error(`Retry failed:`, retryError.message);
+        throw retryError;
+      }
+    }
+
     throw error;
   }
 }
 
+export async function sendIntakeEmail(formData: any, summary: string) {
+  const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@docksidedigital.ca';
+  const { fromEmail } = getNeoCredentials();
+  
+  const transporter = createNeoTransport();
+  
+  const mailOptions = {
+    from: `Dockside Digital <${fromEmail}>`,
+    to: ownerEmail,
+    subject: `New Intake Questionnaire from ${formData.contactName || formData.businessName || 'Potential Client'}`,
+    html: `
+      <h2>New Client Intake Questionnaire Received</h2>
+      <pre style="background: #f5f5f5; padding: 20px; border-radius: 8px; font-family: monospace; white-space: pre-wrap;">
+${summary}
+      </pre>
+    `,
+  };
+
+  return sendEmailWithRetry(transporter, mailOptions, 'intake');
+}
+
 export async function sendOrderEmail(formData: any) {
   const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@docksidedigital.ca';
+  const { fromEmail } = getNeoCredentials();
   
   const projectTypeMap: Record<string, string> = {
     landing: 'Landing Page Sprint',
@@ -88,39 +162,33 @@ export async function sendOrderEmail(formData: any) {
     pro: 'Pro ($799/mo)'
   };
 
-  try {
-    const { client, fromEmail } = await getUncachableResendClient();
-    
-    const result = await client.emails.send({
-      from: `Dockside Digital <${fromEmail}>`,
-      to: ownerEmail,
-      subject: `New Order from ${formData.name}`,
-      html: `
-        <h2>New Order Received</h2>
-        <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <h3 style="margin-top: 0;">Contact Information</h3>
-          <p><strong>Name:</strong> ${formData.name}</p>
-          <p><strong>Email:</strong> ${formData.email}</p>
-          <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
-          <p><strong>Company:</strong> ${formData.company || 'Not provided'}</p>
-        </div>
-        
-        <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <h3 style="margin-top: 0;">Project Details</h3>
-          <p><strong>Project Type:</strong> ${projectTypeMap[formData.projectType] || formData.projectType}</p>
-          <p><strong>Care Plan:</strong> ${carePlanMap[formData.carePlan] || formData.carePlan}</p>
-          <p><strong>Description:</strong></p>
-          <p>${formData.description || 'Not provided'}</p>
-          <p><strong>Start Date:</strong> ${formData.startDate || 'Not specified'}</p>
-          <p><strong>Deadline:</strong> ${formData.deadline || 'Not specified'}</p>
-        </div>
-      `,
-    });
+  const transporter = createNeoTransport();
+  
+  const mailOptions = {
+    from: `Dockside Digital <${fromEmail}>`,
+    to: ownerEmail,
+    subject: `New Order from ${formData.name}`,
+    html: `
+      <h2>New Order Received</h2>
+      <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0;">Contact Information</h3>
+        <p><strong>Name:</strong> ${formData.name}</p>
+        <p><strong>Email:</strong> ${formData.email}</p>
+        <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
+        <p><strong>Company:</strong> ${formData.company || 'Not provided'}</p>
+      </div>
+      
+      <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0;">Project Details</h3>
+        <p><strong>Project Type:</strong> ${projectTypeMap[formData.projectType] || formData.projectType}</p>
+        <p><strong>Care Plan:</strong> ${carePlanMap[formData.carePlan] || formData.carePlan}</p>
+        <p><strong>Description:</strong></p>
+        <p>${formData.description || 'Not provided'}</p>
+        <p><strong>Start Date:</strong> ${formData.startDate || 'Not specified'}</p>
+        <p><strong>Deadline:</strong> ${formData.deadline || 'Not specified'}</p>
+      </div>
+    `,
+  };
 
-    console.log('Order email sent successfully:', result.data?.id);
-    return { success: true, messageId: result.data?.id };
-  } catch (error) {
-    console.error('Error sending order email:', error);
-    throw error;
-  }
+  return sendEmailWithRetry(transporter, mailOptions, 'order');
 }

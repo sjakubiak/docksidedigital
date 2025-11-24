@@ -108,12 +108,12 @@ Preferred communication style: Simple, everyday language.
 - Expects environment variables: `STRIPE_PRICE_*` or `STRIPE_PAYMENT_LINK_*`
 
 **Email Service:**
-- Primary: Resend API via Replit Connectors system
-- Dynamic credential fetching using Replit's connector API
+- Mailgun API for transactional email delivery
 - Sends intake questionnaire and order confirmation emails
-- From email and API key configured via Replit Connectors
-- Fallback: SMTP environment variables (SMTP_*)
+- Configuration via secrets: `MAILGUN_API_KEY`, `MAILGUN_DOMAIN`
+- From email: `info@docksidedigital.ca` (configured via `MAILGUN_FROM_EMAIL` or defaults)
 - Target recipient: `OWNER_EMAIL` environment variable (defaults to sjakubiak@docksidedigital.ca)
+- Uses mailgun.js SDK with form-data for reliable email delivery
 
 **AI Capabilities (Marketing Content):**
 - AI Chatbots & Support: Custom-trained chatbots, FAQ automation, lead qualification

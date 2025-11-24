@@ -31,11 +31,11 @@ function getNeoCredentials(): NeoCredentials {
 function createNeoTransport(): Transporter {
   const { user, password } = getNeoCredentials();
 
-  // Use port 465 with SSL
+  // Use port 465 with SSL/TLS
   const transport = nodemailer.createTransport({
     host: 'smtp0001.neo.space',
     port: 465,
-    secure: true, // true for 465, false for other ports
+    secure: true, // SSL/TLS for port 465
     auth: {
       user,
       pass: password,
@@ -44,8 +44,8 @@ function createNeoTransport(): Transporter {
       minVersion: 'TLSv1.2',
       rejectUnauthorized: true,
     },
-    logger: false,
-    debug: false,
+    logger: true,  // Enable logging
+    debug: true,   // Enable debug mode
   });
 
   return transport;

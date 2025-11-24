@@ -34,11 +34,13 @@ function createNeoTransport(): Transporter {
 
   // Neo uses smtp0001.neo.space even for custom domains
   // Username should be full email (e.g., info@docksidedigital.ca)
+  // Try AUTH LOGIN instead of AUTH PLAIN
   const transport = nodemailer.createTransport({
     host: 'smtp0001.neo.space',
     port: 465,
     secure: true, // SSL/TLS for port 465
     auth: {
+      type: 'login',  // Use LOGIN instead of PLAIN
       user,
       pass: password,
     },

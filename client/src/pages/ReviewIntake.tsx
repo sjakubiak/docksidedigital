@@ -122,8 +122,8 @@ function ReviewContent({ adminToken, onLogout }: { adminToken: string; onLogout:
 
   return (
     <div className="container mx-auto py-12 px-4 max-w-7xl">
-      <div className="mb-8 flex items-center justify-between">
-        <div>
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex-1">
           <h1 className="text-4xl font-bold mb-2" data-testid="text-page-title">Intake Submissions</h1>
           <p className="text-muted-foreground">Review all client intake questionnaire submissions</p>
         </div>
@@ -131,6 +131,7 @@ function ReviewContent({ adminToken, onLogout }: { adminToken: string; onLogout:
           variant="outline"
           onClick={onLogout}
           data-testid="button-logout"
+          className="shrink-0"
         >
           <LogOut className="w-4 h-4 mr-2" />
           Logout

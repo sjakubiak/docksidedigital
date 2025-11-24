@@ -44,6 +44,7 @@ Preferred communication style: Simple, everyday language.
   - Contact (intake and order CTAs)
 - Dedicated Experience page showcasing technical expertise and skills
 - Dedicated pages for intake questionnaire and order forms
+- Admin review page at /review-intake for viewing all submissions (token-protected)
 - Legal pages (Privacy, Terms)
 - 404 not found page
 
@@ -59,11 +60,14 @@ Preferred communication style: Simple, everyday language.
 - `GET /api/status` - Health check endpoint
 - `POST /api/intake-email` - Intake questionnaire submission with database storage and email notification
 - `POST /api/order` - Order form submission with database storage, email notification, and Stripe integration
+- `GET /api/intake-submissions` - Retrieve all intake submissions (protected, requires admin token)
+- `GET /api/orders` - Retrieve all orders (protected, requires admin token)
 
 **Request Handling:**
 - JSON body parsing with raw body preservation for webhook verification
 - Zod schema validation for all form submissions
 - Custom error handling with structured error responses
+- Token-based authentication for admin endpoints using Authorization Bearer header
 
 **Development Features:**
 - Hot module replacement (HMR) via Vite
@@ -127,6 +131,13 @@ Preferred communication style: Simple, everyday language.
 - From email: `info@docksidedigital.ca` (configured via `MAILGUN_FROM_EMAIL` or defaults)
 - Target recipient: `OWNER_EMAIL` environment variable (defaults to sjakubiak@docksidedigital.ca)
 - Uses mailgun.js SDK with form-data for reliable email delivery
+
+**Admin Authentication:**
+- Token-based access control for admin review pages
+- Configuration via secret: `ADMIN_ACCESS_TOKEN`
+- Uses Authorization: Bearer <token> header format (not query parameters)
+- Frontend stores token in localStorage for session persistence
+- Protected endpoints: /api/intake-submissions, /api/orders
 
 **AI Capabilities (Marketing Content):**
 - AI Chatbots & Support: Custom-trained chatbots, FAQ automation, lead qualification

@@ -1,4 +1,63 @@
 import { z } from 'zod';
+import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
+
+// Database Tables
+
+// Intake submissions table
+export const intakeSubmissions = pgTable('intake_submissions', {
+  id: serial('id').primaryKey(),
+  businessName: text('business_name').notNull(),
+  contactName: text('contact_name').notNull(),
+  email: text('email').notNull(),
+  phone: text('phone'),
+  website: text('website'),
+  projectGoals: text('project_goals'),
+  targetAudience: text('target_audience'),
+  competitors: text('competitors'),
+  timeline: text('timeline'),
+  budget: text('budget'),
+  features: text('features'),
+  brandGuidelines: text('brand_guidelines'),
+  additionalInfo: text('additional_info'),
+  emailSent: text('email_sent').notNull().default('false'),
+  emailMessageId: text('email_message_id'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+});
+
+export const insertIntakeSubmissionSchema = createInsertSchema(intakeSubmissions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type IntakeSubmission = typeof intakeSubmissions.$inferSelect;
+export type InsertIntakeSubmission = z.infer<typeof insertIntakeSubmissionSchema>;
+
+// Orders table
+export const orders = pgTable('orders', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  email: text('email').notNull(),
+  phone: text('phone'),
+  company: text('company'),
+  projectType: text('project_type').notNull(),
+  carePlan: text('care_plan').notNull(),
+  description: text('description'),
+  startDate: text('start_date'),
+  deadline: text('deadline'),
+  emailSent: text('email_sent').notNull().default('false'),
+  emailMessageId: text('email_message_id'),
+  paymentStatus: text('payment_status'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+});
+
+export const insertOrderSchema = createInsertSchema(orders).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type Order = typeof orders.$inferSelect;
+export type InsertOrder = z.infer<typeof insertOrderSchema>;
 
 // Intake form schema
 export const intakeFormSchema = z.object({

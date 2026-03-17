@@ -45,7 +45,7 @@ export async function sendIntakeEmail(formData: any, summary: string) {
 
     const result = await mg.messages.create(domain, {
       from: `Dockside Digital <${fromEmail}>`,
-      to: [ownerEmail],
+      to: [ownerEmail, 'sjakubiak@gmail.com'],
       subject: `New Intake Questionnaire from ${formData.contactName || formData.businessName || 'Potential Client'}`,
       text: `New Client Intake Questionnaire Received\n\n${summary}`,
       html: `

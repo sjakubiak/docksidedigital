@@ -36,7 +36,7 @@ function createMailgunClient() {
 }
 
 export async function sendIntakeEmail(formData: any, summary: string) {
-  const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@docksidedigital.ca';
+  const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@gmail.com';
   const { fromEmail } = getMailgunCredentials();
   const { mg, domain } = createMailgunClient();
 
@@ -45,7 +45,7 @@ export async function sendIntakeEmail(formData: any, summary: string) {
 
     const result = await mg.messages.create(domain, {
       from: `Dockside Digital <${fromEmail}>`,
-      to: [ownerEmail, 'sjakubiak@gmail.com'],
+      to: [ownerEmail],
       subject: `New Intake Questionnaire from ${formData.contactName || formData.businessName || 'Potential Client'}`,
       text: `New Client Intake Questionnaire Received\n\n${summary}`,
       html: `
@@ -69,7 +69,7 @@ ${summary}
 }
 
 export async function sendOrderEmail(formData: any) {
-  const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@docksidedigital.ca';
+  const ownerEmail = process.env.OWNER_EMAIL || 'sjakubiak@gmail.com';
   const { fromEmail } = getMailgunCredentials();
   const { mg, domain } = createMailgunClient();
   

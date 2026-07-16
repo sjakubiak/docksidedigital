@@ -71,12 +71,12 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <a
-              href="mailto:sjakubiak@docksidedigital.ca"
+              href="mailto:sjakubiak@gmail.com"
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors hover-elevate px-2 py-1 rounded-md inline-flex"
               data-testid="link-email"
             >
               <Mail className="h-4 w-4" />
-              sjakubiak@docksidedigital.ca
+              sjakubiak@gmail.com
             </a>
             <p className="text-sm text-muted-foreground mt-4">
               Halifax, Nova Scotia

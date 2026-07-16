@@ -19,67 +19,63 @@ interface CarePlan {
 
 const pricingTiers: PricingTier[] = [
   {
-    name: "Landing Page Sprint",
-    priceRange: "$1,500–$3,000",
-    description: "Perfect for quick launches and focused campaigns",
+    name: "Discovery & Strategy",
+    priceRange: "$5,000–$15,000",
+    description: "Rapid assessment and roadmap for AI or enterprise initiatives",
     features: [
-      "Single page design",
-      "Copywriting polish",
-      "SEO basics",
-      "Analytics integration",
-      "Contact form",
-      "2 rounds of revisions",
-      "1-2 week delivery"
+      "Current state assessment",
+      "Technology & architecture review",
+      "AI / Java fit analysis",
+      "Prioritized roadmap",
+      "Executive-ready deliverables",
+      "2–3 week engagement"
     ]
   },
   {
-    name: "Business Website",
-    priceRange: "$3,000–$7,000",
-    description: "Complete web presence for growing businesses",
+    name: "Project Delivery",
+    priceRange: "$25,000–$150,000+",
+    description: "End-to-end delivery of a defined scope — fixed or time-and-materials",
     features: [
-      "4-8 pages",
-      "Blog functionality",
-      "Basic CMS",
-      "Contact/booking forms",
-      "On-page SEO",
-      "Mobile responsive",
-      "2-3 rounds of revisions",
-      "2-4 week delivery"
+      "Solution architecture",
+      "Full-stack development",
+      "AI integration or Java backend",
+      "Cloud deployment",
+      "Testing & QA",
+      "Documentation & handover",
+      "Agile delivery sprints"
     ],
     highlighted: true
   },
   {
-    name: "MVP Web App",
-    priceRange: "$8,000–$20,000+",
-    description: "Custom applications with core features",
+    name: "Retainer & Staff Aug",
+    priceRange: "$10,000–$50,000/mo",
+    description: "Ongoing embedded consulting or team augmentation",
     features: [
-      "User authentication",
-      "Database setup",
-      "3-5 core features",
-      "Payment integration",
-      "Admin dashboard",
-      "API development",
-      "Agile delivery",
-      "4-8+ week delivery"
+      "Dedicated consultant(s)",
+      "Flexible hours allocation",
+      "Priority availability",
+      "Monthly strategy reviews",
+      "Ongoing AI or Java development",
+      "Knowledge transfer included"
     ]
   }
 ];
 
 const carePlans: CarePlan[] = [
   {
-    name: "Basic",
-    price: "$149/mo",
-    features: ["Monthly updates", "Bug fixes", "Basic support", "Performance monitoring"]
+    name: "Maintenance",
+    price: "$2,500/mo",
+    features: ["Bug fixes & patches", "Security updates", "Performance monitoring", "Monthly status report"]
   },
   {
-    name: "Standard",
-    price: "$349/mo",
-    features: ["Weekly updates", "Priority support", "Content updates", "Security patches", "Analytics reports"]
+    name: "Support",
+    price: "$5,000/mo",
+    features: ["All Maintenance features", "Priority response SLA", "Minor enhancements", "Quarterly architecture review", "On-call availability"]
   },
   {
-    name: "Pro",
-    price: "$799/mo",
-    features: ["Daily monitoring", "24/7 support", "Unlimited updates", "A/B testing", "Custom features", "Dedicated account manager"]
+    name: "Partnership",
+    price: "$10,000+/mo",
+    features: ["All Support features", "Dedicated consultant", "Roadmap planning", "Unlimited minor requests", "Executive stakeholder access", "Annual technology audit"]
   }
 ];
 
@@ -125,7 +121,7 @@ export default function PricingTable() {
 
       <div>
         <Separator className="mb-8" />
-        <h3 className="text-2xl md:text-3xl font-bold text-center mb-8">Care Plans</h3>
+        <h3 className="text-2xl md:text-3xl font-bold text-center mb-8">Ongoing Support Plans</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {carePlans.map((plan) => (
             <Card key={plan.name} className="rounded-2xl p-6" data-testid={`card-care-${plan.name.toLowerCase()}`}>
@@ -147,7 +143,7 @@ export default function PricingTable() {
       </div>
 
       <p className="text-sm text-center text-muted-foreground">
-        CAD, before HST. 50% deposit / 50% launch, or 10% off paid in full.
+        All pricing in CAD. Fixed-scope projects quoted after discovery. Retainers billed monthly. Custom enterprise pricing available.
       </p>
     </div>
   );

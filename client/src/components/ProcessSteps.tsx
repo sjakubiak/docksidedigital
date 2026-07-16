@@ -12,43 +12,43 @@ const steps: Step[] = [
     number: 1,
     icon: FileText,
     title: "Intake",
-    description: "Fill out our quick questionnaire to tell us about your project and goals."
+    description: "Share details about your organization, goals, and the challenge you're looking to solve."
   },
   {
     number: 2,
     icon: Phone,
-    title: "15-min Call",
-    description: "We hop on a brief call to clarify your needs and answer questions."
+    title: "Discovery Call",
+    description: "A focused conversation to understand your environment, constraints, and success criteria."
   },
   {
     number: 3,
     icon: FileCheck,
-    title: "Proposal & Deposit",
-    description: "You receive a detailed proposal. Once approved, pay 50% to kick things off."
+    title: "Proposal",
+    description: "We deliver a clear scope of work, timeline, and investment — no surprises."
   },
   {
     number: 4,
     icon: Code,
-    title: "Build",
-    description: "We build your project iteratively, keeping you updated along the way."
+    title: "Delivery",
+    description: "We execute in focused sprints with regular check-ins and transparent progress updates."
   },
   {
     number: 5,
     icon: Monitor,
-    title: "Staging Demo",
-    description: "Review your site on a staging environment and request any final tweaks."
+    title: "Review & Iterate",
+    description: "Demos and feedback cycles ensure the solution matches your requirements before go-live."
   },
   {
     number: 6,
     icon: Rocket,
     title: "Launch",
-    description: "We deploy to production, hand over access, and collect final payment."
+    description: "Production deployment, documentation handover, and knowledge transfer to your team."
   },
   {
     number: 7,
     icon: Shield,
-    title: "Care Plan",
-    description: "Optional ongoing support to keep your site updated, secure, and performing."
+    title: "Ongoing Support",
+    description: "Optional support plans to keep your systems secure, current, and performing well."
   }
 ];
 

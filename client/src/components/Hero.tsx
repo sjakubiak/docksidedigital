@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import heroImage from "@assets/generated_images/Halifax_harbor_hero_background_6b5f3e8a.png";
 import logo from "@assets/dockside-logo.png";
 
@@ -30,11 +29,11 @@ export default function Hero() {
           <img src={logo} alt="Dockside Digital" className="h-28 md:h-36 lg:h-40 w-auto" style={{ filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 24px rgba(255, 255, 255, 0.2)) brightness(1.1)' }} />
         </div>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 leading-tight drop-shadow-md">
-          Web Development in Halifax, Nova Scotia
+          AI & Enterprise IT Consulting
         </h1>
         
         <p className="text-lg md:text-xl text-white mb-8 leading-relaxed max-w-2xl mx-auto drop-shadow-md">
-          AI-driven websites and web apps for Atlantic Canada businesses. Clean, reliable solutions built in Halifax.
+          Practical AI integration, Java enterprise development, and scalable software solutions for startups, mid-size businesses, and large enterprises.
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -44,7 +43,7 @@ export default function Hero() {
             onClick={() => scrollToSection("contact")}
             data-testid="button-hero-plan"
           >
-            Get a plan in 15 minutes
+            Book a Discovery Call
           </Button>
           <Button
             size="lg"
@@ -53,7 +52,7 @@ export default function Hero() {
             onClick={() => scrollToSection("pricing")}
             data-testid="button-hero-pricing"
           >
-            See pricing
+            See services
           </Button>
         </div>
       </div>

@@ -22,7 +22,7 @@ export default function Footer() {
           <div>
             <img src={logo} alt="Dockside Digital" className="h-12 w-auto mb-4" />
             <p className="text-sm text-muted-foreground leading-relaxed">
-              IT consulting specializing in AI integration, Java enterprise development, and complex application delivery.
+              Halifax-based web studio building fast, clean solutions for Atlantic Canada businesses.
             </p>
           </div>
           

@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "z-xNP9c8EmT8OHjmkUDeb"
+uri = "file://attached_assets/generated_images/Halifax_harbor_hero_background_6b5f3e8a.png"
+type = "image"
+title = "Halifax harbor website background"
+description = "The water and harbor background image used on the website."
+logical_id = "6bc5944a-bc2f-4b37-ab58-f0095029fa56"
+content_hash = "sha256:d9931586ef736d31a83e511b76a110dbf67055081399ff9d0bd2710b4c9495f7"
+size = 1722317
+mtime_ms = 1762950847648
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:2221b7ae-1974-45bd-9942-08a7f5e53965/6bc5944a-bc2f-4b37-ab58-f0095029fa56/f56caf97-8b75-4eb7-90e0-0f994d47991d"
+storage_version_token = "1793281746449433"
+content_type = "image/png"

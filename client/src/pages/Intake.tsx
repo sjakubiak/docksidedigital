@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Copy, ArrowLeft, Send } from "lucide-react";
 import logo from "@assets/dockside-logo.png";
+import { trackMetaLead } from "@/lib/metaPixel";
 
 export default function Intake() {
   const { toast } = useToast();
@@ -77,20 +78,22 @@ Requirements:
 
     try {
       const summary = generateSummary();
+      const eventID = window.crypto.randomUUID();
       const response = await fetch('/api/intake-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ formData, summary }),
+        body: JSON.stringify({ formData, summary, eventID }),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
+      if (!response.ok || data.ok !== true) {
         throw new Error(data.error || 'Failed to send email');
       }
 
+      trackMetaLead(eventID);
       toast({
         title: "Email sent!",
         description: "We've received your intake questionnaire and will be in touch soon.",

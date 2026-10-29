@@ -1,8 +1,10 @@
-import { Switch, Route } from "wouter";
+import { useEffect, useRef } from "react";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { trackMetaPageView } from "@/lib/metaPixel";
 import Home from "@/pages/Home";
 import Intake from "@/pages/Intake";
 import Order from "@/pages/Order";
@@ -11,6 +13,19 @@ import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
 import ReviewIntake from "@/pages/ReviewIntake";
 import NotFound from "@/pages/not-found";
+
+function MetaPixelRouteTracker() {
+  const [location] = useLocation();
+  const previousLocation = useRef(location);
+
+  useEffect(() => {
+    if (previousLocation.current === location) return;
+    previousLocation.current = location;
+    trackMetaPageView();
+  }, [location]);
+
+  return null;
+}
 
 function Router() {
   return (
@@ -32,6 +47,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
+        <MetaPixelRouteTracker />
         <Router />
       </TooltipProvider>
     </QueryClientProvider>

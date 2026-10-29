@@ -96,6 +96,11 @@ export default function Privacy() {
             We use cookies and similar tracking technologies to track activity on our website and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.
           </p>
 
+          <h2>Meta Pixel</h2>
+          <p>
+            We use the Meta (Facebook) Pixel to measure ad performance. You can manage or opt out of personalized ads through your Facebook ad settings.
+          </p>
+
           <h2>Third-Party Links</h2>
           <p>
             Our website may contain links to third-party websites. We are not responsible for the privacy practices of these external sites.

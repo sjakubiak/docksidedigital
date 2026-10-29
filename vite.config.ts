@@ -5,6 +5,16 @@ import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig({
   plugins: [
+    {
+      name: "meta-pixel-id",
+      transformIndexHtml(html) {
+        const pixelId = process.env.META_PIXEL_ID?.trim();
+        if (!pixelId) {
+          throw new Error("META_PIXEL_ID must be set to build or serve the website.");
+        }
+        return html.replaceAll("__META_PIXEL_ID__", pixelId);
+      },
+    },
     react(),
     runtimeErrorOverlay(),
     ...(process.env.NODE_ENV !== "production" &&

@@ -101,6 +101,7 @@ export type OrderForm = z.infer<typeof orderFormSchema>;
 export const intakeEmailPayloadSchema = z.object({
   formData: intakeFormSchema,
   summary: z.string().min(1, "Summary is required"),
+  eventID: z.string().uuid().optional(),
 });
 
 export type IntakeEmailPayload = z.infer<typeof intakeEmailPayloadSchema>;

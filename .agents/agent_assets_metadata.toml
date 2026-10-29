@@ -14,3 +14,17 @@ mtime_ms = 1762950847648
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:2221b7ae-1974-45bd-9942-08a7f5e53965/6bc5944a-bc2f-4b37-ab58-f0095029fa56/f56caf97-8b75-4eb7-90e0-0f994d47991d"
 storage_version_token = "1793281746449433"
 content_type = "image/png"
+
+[[outputs]]
+id = "5UgP_DzdJNeQnbJZV97BS"
+uri = "file://attached_assets/dockside-harbor-with-logo.png"
+type = "image"
+title = "Halifax harbor background with Dockside Digital logo"
+description = "The harbor image with the Dockside Digital logo centered near the top, matching the website hero styling."
+logical_id = "6b1c34ba-1427-4129-956c-068a55343e16"
+content_hash = "sha256:74a12b7349ff4dc2e6252b2982d2fe687f8349fa6b824b82a23ec2331c1c54f1"
+size = 1370504
+mtime_ms = 1793281926532
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:2221b7ae-1974-45bd-9942-08a7f5e53965/6b1c34ba-1427-4129-956c-068a55343e16/425d7249-e347-4fa6-b075-bcf164ffc99c"
+storage_version_token = "1793281942464764"
+content_type = "image/png"

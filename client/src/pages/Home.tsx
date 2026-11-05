@@ -275,6 +275,31 @@ export default function Home() {
               Clear, upfront pricing with no surprises.
             </p>
           </div>
+          <Card className="max-w-4xl mx-auto mb-12 border-primary/30 bg-primary/5" data-testid="card-free-website-poc">
+            <CardContent className="p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div className="max-w-2xl">
+                <p className="text-sm font-semibold uppercase tracking-wide text-primary mb-2">
+                  For new clients
+                </p>
+                <h3 className="text-2xl md:text-3xl font-bold mb-3">
+                  Free 1-Hour Session + Mockup
+                </h3>
+                <p className="text-muted-foreground">
+                  Start with a free one-hour session to discuss your goals, paired with a custom homepage mockup to explore a direction for your site.
+                </p>
+                <p className="text-sm text-muted-foreground mt-3">
+                  The mockup is a non-functional design concept. Website coding, extra pages, hosting, and launch are quoted separately.
+                </p>
+              </div>
+              <Button
+                size="lg"
+                onClick={() => setLocation("/intake")}
+                data-testid="button-request-free-website-session"
+              >
+                Request a Free Session
+              </Button>
+            </CardContent>
+          </Card>
           <PricingTable />
         </div>
       </section>

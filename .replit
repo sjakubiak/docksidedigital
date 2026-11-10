@@ -45,3 +45,7 @@ integrations = ["javascript_stripe:1.0.0", "resend:1.0.0"]
 
 [userenv.shared]
 META_PIXEL_ID = "954887197378733"
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 180000

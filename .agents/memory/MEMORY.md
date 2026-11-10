@@ -1,0 +1,1 @@
+- [Dependency security overrides](dependency-security.md) — retain targeted overrides until upstream dependencies independently resolve to safe versions.

@@ -85,10 +85,10 @@ export const orderFormSchema = z.object({
   phone: z.string().optional(),
   company: z.string().optional(),
   projectType: z.enum(['landing', 'website', 'mvp'], {
-    errorMap: () => ({ message: "Please select a valid project type" })
+    error: "Please select a valid project type"
   }),
   carePlan: z.enum(['none', 'basic', 'standard', 'pro'], {
-    errorMap: () => ({ message: "Please select a valid care plan" })
+    error: "Please select a valid care plan"
   }),
   description: z.string().optional(),
   startDate: z.string().optional(),
